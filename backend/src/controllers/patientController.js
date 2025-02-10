@@ -7,7 +7,7 @@ const {
 } = require("../services/patientServices");
 const {
   validation,
-  updatePatientValidation,
+  updatePatientValidationSchema,
 } = require("../utils/validations/schemaValidations");
 
 // --> Get All Patient
@@ -42,7 +42,7 @@ const getPatient = async (req, res, next) => {
 
 const updatePatient = async (req, res, next) => {
   try {
-    validation(req.body, updatePatientValidation);
+    validation(req.body, updatePatientValidationSchema);
 
     const updatedPatient = await updatePatientService(req);
 
@@ -62,7 +62,7 @@ const deletePatient = async (req, res, next) => {
     console.log("what in d ", deletedPatient);
     res.status(203).json({
       message: "Patient deleted successfully",
-      deletedRecod: deletedPatient,
+      deletedRecode: deletedPatient,
     });
   } catch (err) {
     next(err);

@@ -1,16 +1,23 @@
 const mongoose = require("mongoose");
 
 const prescriptionSchema = new mongoose.Schema({
-  patientId: { type: mongoose.Schema.Types.ObjectId, ref: "Patient" },
+  patient: { type: mongoose.Schema.Types.ObjectId, ref: "Patient" },
+  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+
   medicine: [
     {
       medicineName: { type: String },
       dosage: { type: String },
       frequency: { type: String, required: true },
       duration: { type: String, required: true },
-      
     },
   ],
+
+  // medicineName: { type: String },
+  // dosage: { type: String },
+  // frequency: { type: String },
+  // duration: { type: String },
+
   PrescriptionDate: { type: Date, default: Date.now },
 });
 

@@ -4,10 +4,9 @@ const {
   getPatient,
   updatePatient,
   deletePatient,
-} = require("../controllers/patientcontroller");
-const authMiddleware = require("../middlwares/authMiddleware");
-const checkPermissionMiddleware = require("../middlwares/permissionsMiddleware");
-require("../controllers/patientcontroller");
+} = require("../controllers/patientController");
+const authMiddleware = require("../middlewares/authMiddleware");
+const checkPermissionMiddleware = require("../middlewares/permissionsMiddleware");
 
 const router = express.Router();
 
@@ -15,8 +14,8 @@ const router = express.Router();
 
 router.get(
   "/",
-  authMiddleware,
-  checkPermissionMiddleware("admin", "pharmacist"),
+  // authMiddleware,
+  // checkPermissionMiddleware("admin", "pharmacist"),
   getAllPatients
 ); // pharmacist and Admin
 

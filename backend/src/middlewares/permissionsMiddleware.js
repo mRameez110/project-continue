@@ -14,7 +14,7 @@ const checkPermission = (...allowedRoles) => {
         loggedInUserRole,
         targetUserId,
       };
-      next();
+      return next();
     }
 
     if (!allowedRoles.includes(loggedInUserRole)) {
@@ -28,11 +28,25 @@ const checkPermission = (...allowedRoles) => {
       throw new ForbiddenError("Patients can only update their own data", 403);
     }
 
+    // if (
+    //   loggedInUserRole === "pharmacist" &&
+    //   ["/pharmacists", "/branches"].some((route) =>
+    //     req.originalUrl.includes(route)
+    //   )
+    // ) {
+    //   throw new ForbiddenError(
+    //     "Pharmacists cannot manage other pharmacists or branches",
+    //     403
+    //   );
+    // }
+
+    // ✅ Allow pharmacists to update/delete their own account
     if (
       loggedInUserRole === "pharmacist" &&
       ["/pharmacists", "/branches"].some((route) =>
         req.originalUrl.includes(route)
-      )
+      ) &&
+      loggedInUserId !== targetUserId
     ) {
       throw new ForbiddenError(
         "Pharmacists cannot manage other pharmacists or branches",

@@ -5,8 +5,11 @@ const { default: helmet } = require("helmet");
 const connectDB = require("./utils/dbConnection");
 const authRoutes = require("./routes/authRoutes");
 const patientRoutes = require("./routes/patientRoutes");
+const pharmacistRoutes = require("./routes/pharmacistRoutes");
+const prescriptionRoutes = require("./routes/prescriptionRoutes");
+const pharmacyBranchRoutes = require("./routes/pharmacyBranchRoutes");
 
-const errorHandler = require("./middlwares/errorHandler");
+const errorHandler = require("./middlewares/errorHandler");
 
 connectDB();
 
@@ -16,13 +19,14 @@ app.use(helmet());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/patients", patientRoutes);
-// app.use("/api/pharmacists");
+app.use("/api/pharmacists", pharmacistRoutes);
+app.use("/api/prescriptions", prescriptionRoutes);
 // app.use("/api/pharmacies");
-// app.use("/api/prescriptions");
+app.use("/api/pharmacy-branches", pharmacyBranchRoutes);
 
 app.use("*", (req, res) => {
   res.status(404).json({
-    message: "Route not exist",
+    message: "Route not exist 2",
   });
 });
 
