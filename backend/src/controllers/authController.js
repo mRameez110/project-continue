@@ -11,9 +11,7 @@ const registerUser = async (req, res, next) => {
     const newUser = await registerService(req.body);
     console.log("check new user in controler ", newUser);
 
-    res
-      .status(201)
-      .json({ message: "User registered successfully", user: newUser });
+    res.status(201).json({ message: "User registered successfully", newUser });
   } catch (err) {
     next(err);
   }
@@ -29,7 +27,7 @@ const loginUser = async (req, res, next) => {
     const { user, token } = await loginService(req.body);
 
     res.status(200).json({
-      message: "Login successful",
+      message: "Login successfully",
       user,
       token,
     });

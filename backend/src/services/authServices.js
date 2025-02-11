@@ -49,12 +49,38 @@ const registerService = async (dataObject) => {
     console.log("see new pharmacist ", newPharmacist);
   }
 
-  return newUser;
+  const userWithoutPassword = newUser.toObject();
+  delete userWithoutPassword.password;
+
+  return { newUser: userWithoutPassword };
 };
+
+// const loginService = async (dataObject) => {
+//   const { email, password } = dataObject;
+//   const user = await userModel.findOne({ email });
+//   if (!user) {
+//     throw new BadRequestError("Email not found", 400);
+//   }
+
+//   const isMatch = await bcrypt.compare(password, user.password);
+//   if (!isMatch) {
+//     throw new BadRequestError("Wrong Password", 400);
+//   }
+
+//   const token = jwt.sign(
+//     { userId: user._id, role: user.role },
+//     process.env.JWT_SECRET,
+//     { expiresIn: "8h" }
+//   );
+
+//   return { user, token };
+// };
 
 const loginService = async (dataObject) => {
   const { email, password } = dataObject;
+
   const user = await userModel.findOne({ email });
+
   if (!user) {
     throw new BadRequestError("Email not found", 400);
   }
@@ -64,13 +90,16 @@ const loginService = async (dataObject) => {
     throw new BadRequestError("Wrong Password", 400);
   }
 
+  const userWithoutPassword = user.toObject();
+  delete userWithoutPassword.password;
+
   const token = jwt.sign(
     { userId: user._id, role: user.role },
     process.env.JWT_SECRET,
     { expiresIn: "8h" }
   );
 
-  return { user, token };
+  return { user: userWithoutPassword, token };
 };
 
 module.exports = { registerService, loginService };

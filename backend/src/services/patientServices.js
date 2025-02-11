@@ -9,6 +9,8 @@ const getAllPatientsService = async () => {
   const patients = await patientModel.find().populate("user");
 
   // if (patients.length == 0) throw new NotFoundError("No patient found", 200);
+
+  console.log("see patiens ", patients);
   return patients;
 };
 

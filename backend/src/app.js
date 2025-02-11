@@ -1,8 +1,10 @@
 require("dotenv").config();
 const express = require("express");
 const { default: helmet } = require("helmet");
+const cors = require("cors");
 
 const connectDB = require("./utils/dbConnection");
+
 const authRoutes = require("./routes/authRoutes");
 const patientRoutes = require("./routes/patientRoutes");
 const pharmacistRoutes = require("./routes/pharmacistRoutes");
@@ -14,6 +16,8 @@ const errorHandler = require("./middlewares/errorHandler");
 connectDB();
 
 const app = express();
+app.use(cors());
+
 app.use(express.json());
 app.use(helmet());
 
