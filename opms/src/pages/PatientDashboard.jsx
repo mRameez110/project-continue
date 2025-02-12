@@ -271,36 +271,84 @@
 // export default PatientDashboard;
 
 // src/components/PatientDashboard.jsx
-import DataCard from "../components/DataCard";
+
+// import DataCard from "../components/DataCard";
+// import { dummyData } from "../data/dummyData";
+
+// const PatientDashboard = () => {
+//   return (
+//     <div className="p-6">
+//       <h2 className="font-semibold text-xl mb-4">Top Pharmacists</h2>
+//       <div className="flex flex-wrap justify-start">
+//         {dummyData.pharmacists.map((data, index) => (
+//           <DataCard
+//             key={index}
+//             title={data.title}
+//             name={data.name}
+//             link={data.link}
+//             type="pharmacist"
+//           />
+//         ))}
+//       </div>
+
+//       <h2 className="font-semibold text-xl mt-8 mb-4">Top Prescriptions</h2>
+//       <div className="flex flex-wrap justify-start">
+//         {dummyData.prescriptions.map((data, index) => (
+//           <DataCard
+//             key={index}
+//             title={data.title}
+//             description={data.description}
+//             link={data.link}
+//             type="prescription"
+//           />
+//         ))}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default PatientDashboard;
+
+import React from "react";
 import { dummyData } from "../data/dummyData";
+import CustomCard from "../components/CustomCard";
 
 const PatientDashboard = () => {
+  console.log("see dum data ", dummyData);
   return (
     <div className="p-6">
-      <h2 className="font-semibold text-xl mb-4">Top Pharmacists</h2>
-      <div className="flex flex-wrap justify-start">
-        {dummyData.pharmacists.map((data, index) => (
-          <DataCard
-            key={index}
-            title={data.title}
-            name={data.name}
-            link={data.link}
-            type="pharmacist"
-          />
-        ))}
+      <h2 className="text-xl font-semibold mb-4">Patient Dashboard</h2>
+
+      {/* Top Pharmacists Section */}
+      <div className="mb-6">
+        <h3 className="text-lg font-medium mb-2">Top Pharmacists</h3>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          {dummyData.pharmacists.slice(0, 5).map((pharmacist) => (
+            <CustomCard
+              key={pharmacist.id}
+              title={pharmacist.name}
+              subtitle={pharmacist.title}
+              link={pharmacist.link}
+              linkText="View Profile"
+            />
+          ))}
+        </div>
       </div>
 
-      <h2 className="font-semibold text-xl mt-8 mb-4">Top Prescriptions</h2>
-      <div className="flex flex-wrap justify-start">
-        {dummyData.prescriptions.map((data, index) => (
-          <DataCard
-            key={index}
-            title={data.title}
-            description={data.description}
-            link={data.link}
-            type="prescription"
-          />
-        ))}
+      {/* Top Prescriptions Section */}
+      <div>
+        <h3 className="text-lg font-medium mb-2">Top Prescriptions</h3>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          {dummyData.prescriptions.slice(0, 5).map((prescription) => (
+            <CustomCard
+              key={prescription.id}
+              title={prescription.title}
+              subtitle={prescription.description}
+              link={prescription.link}
+              linkText="View Details"
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

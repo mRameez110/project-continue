@@ -7,8 +7,8 @@ const checkPermissionMiddleware = require("../middlewares/permissionsMiddleware"
 const {
   createPrescription,
   getAllPrescriptions,
-  getPrescription,
-  updatePresciption,
+  getPrescriptionById,
+  updatePrescription,
   deletePrescription,
 } = require("../controllers/prescriptionController");
 
@@ -23,8 +23,8 @@ router.get(
 
 router.post(
   "/",
-  //   authMiddleware,
-  //   checkPermissionMiddleware("admin", "pharmacist"),
+  authMiddleware,
+  checkPermissionMiddleware("admin", "pharmacist"),
   createPrescription
 );
 
@@ -32,14 +32,14 @@ router.get(
   "/:id",
   // authMiddleware,
   // checkPermissionMiddleware("admin", "pharmacist", "patient"),
-  getPrescription
+  getPrescriptionById
 );
 
 router.put(
   "/:id",
   authMiddleware,
   checkPermissionMiddleware("admin", "pharmacist", "patient"),
-  updatePresciption
+  updatePrescription
 );
 router.delete(
   "/:id",

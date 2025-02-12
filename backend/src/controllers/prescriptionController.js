@@ -1,7 +1,7 @@
 const {
   createPrescriptionService,
   getAllPrescriptionsService,
-  getPrescriptionService,
+  getPrescriptionByIdService,
   updatePrescriptionService,
   deletePrescriptionService,
 } = require("../services/prescriptionServices");
@@ -12,11 +12,9 @@ const {
 } = require("../utils/validations/schemaValidations");
 
 // --> Get All Prescriptions
-
 const getAllPrescriptions = async (req, res, next) => {
   try {
     const prescriptions = await getAllPrescriptionsService(req);
-    console.log("see all prescriptions ", prescriptions);
     res.status(200).json({ prescriptions });
   } catch (err) {
     next(err);
@@ -24,9 +22,9 @@ const getAllPrescriptions = async (req, res, next) => {
 };
 
 // --> Create prescription
-
 const createPrescription = async (req, res, next) => {
   try {
+    console.log("see prescription Data ", req.body, req.user);
     validation(req.body, createPrescriptionValidationSchema);
 
     const createdPrescription = await createPrescriptionService(req);
@@ -40,10 +38,9 @@ const createPrescription = async (req, res, next) => {
 };
 
 // --> Get prescription(single)
-
-const getPrescription = async (req, res, next) => {
+const getPrescriptionById = async (req, res, next) => {
   try {
-    const fetchedPrescription = await getPrescriptionService(req);
+    const fetchedPrescription = await getPrescriptionByIdService(req);
     console.log("check ftech prescription ", fetchedPrescription);
     res.status(200).json({
       message: "Prescription fetch Successfully",
@@ -55,13 +52,10 @@ const getPrescription = async (req, res, next) => {
 };
 
 // --> Update Patient
-
-const updatePresciption = async (req, res, next) => {
+const updatePrescription = async (req, res, next) => {
   try {
     validation(req.body, updatePrescriptionValidationSchema);
-
     const updatedPrescription = await updatePrescriptionService(req);
-
     res.status(200).json({
       message: "Prescription updated successfully",
       updatedPrescription,
@@ -72,7 +66,6 @@ const updatePresciption = async (req, res, next) => {
 };
 
 // --> Delete Patient
-
 const deletePrescription = async (req, res, next) => {
   try {
     const deletedPrescription = await deletePrescriptionService(req);
@@ -88,7 +81,7 @@ const deletePrescription = async (req, res, next) => {
 module.exports = {
   createPrescription,
   getAllPrescriptions,
-  getPrescription,
-  updatePresciption,
+  getPrescriptionById,
+  updatePrescription,
   deletePrescription,
 };

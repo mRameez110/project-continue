@@ -305,111 +305,175 @@
 
 // export default Login;
 
+// import { useState } from "react";
+// import { useNavigate } from "react-router-dom";
+// import { login } from "../utils/auth";
+// import { toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
+
+// const LoginPage = () => {
+//   const navigate = useNavigate();
+//   const [email, setEmail] = useState("");
+//   const [password, setPassword] = useState("");
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+
+//     try {
+//       const response = await login({ email, password });
+//       console.log("see login response ", response);
+//       console.log("see login response ", response.data.token);
+//       console.log("see login response ", response.data.user);
+//       console.log("see login response ", response.data.user.role);
+//       console.log("see login response ", response.data.user._id);
+
+//       // Storing values in localStorage
+//       localStorage.setItem("token", response.data.token);
+//       localStorage.setItem("userRole", response.data.user.role);
+//       localStorage.setItem("userId", response.data.user._id);
+//       localStorage.setItem("userName", response.data.user.userName);
+
+//       console.log(
+//         "Token from localStorage:",
+//         localStorage.getItem("token"),
+//         "Role from localStorage:",
+//         localStorage.getItem("userRole"),
+//         "User ID from localStorage:",
+//         localStorage.getItem("userId"),
+//         "User Name from localStorage:",
+//         localStorage.getItem("userName")
+//       );
+
+//       toast.success("Login successful!");
+
+//       if (response.data.user.role === "patient") {
+//         navigate("/patient-dashboard");
+//       } else if (response.data.user.role === "pharmacist") {
+//         navigate("/pharmacist-dashboard");
+//       }
+//     } catch (error) {
+//       console.error(error);
+//       toast.error("Login failed! Please try again.");
+//     }
+//   };
+
+//   return (
+//     <div className="min-h-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center">
+//       <div className="bg-white p-8 rounded-lg shadow-lg w-96">
+//         <h2 className="text-2xl font-bold text-center mb-6 text-indigo-600">
+//           Log In
+//         </h2>
+//         <form onSubmit={handleSubmit}>
+//           <div className="mb-4">
+//             <label className="block text-gray-700" htmlFor="email">
+//               Email
+//             </label>
+//             <input
+//               type="email"
+//               id="email"
+//               value={email}
+//               onChange={(e) => setEmail(e.target.value)}
+//               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+//               required
+//             />
+//           </div>
+
+//           <div className="mb-4">
+//             <label className="block text-gray-700" htmlFor="password">
+//               Password
+//             </label>
+//             <input
+//               type="password"
+//               id="password"
+//               value={password}
+//               onChange={(e) => setPassword(e.target.value)}
+//               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+//               required
+//             />
+//           </div>
+
+//           <div className="text-center">
+//             <button
+//               type="submit"
+//               className="w-full py-3 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 transition duration-300"
+//             >
+//               Log In
+//             </button>
+//           </div>
+//         </form>
+//         <p className="mt-4 text-center text-gray-600">
+//           Don't have an account?{" "}
+//           <a href="/signup" className="text-indigo-600 hover:underline">
+//             Sign Up
+//           </a>
+//         </p>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default LoginPage;
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../utils/auth";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
-const LoginPage = () => {
-  const navigate = useNavigate();
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-
     try {
       const response = await login({ email, password });
-      console.log("see login response ", response);
-      console.log("see login response ", response.data.token);
-      console.log("see login response ", response.data.user);
-      console.log("see login response ", response.data.user.role);
-      console.log("see login response ", response.data.user._id);
-
-      // Storing values in localStorage
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("userRole", response.data.user.role);
       localStorage.setItem("userId", response.data.user._id);
       localStorage.setItem("userName", response.data.user.userName);
 
-      console.log(
-        "Token from localStorage:",
-        localStorage.getItem("token"),
-        "Role from localStorage:",
-        localStorage.getItem("userRole"),
-        "User ID from localStorage:",
-        localStorage.getItem("userId"),
-        "User Name from localStorage:",
-        localStorage.getItem("userName")
-      );
+      const dashboardRoutes = {
+        admin: "/admin-dashboard",
+        pharmacist: "/pharmacist-dashboard",
+        patient: "/patient-dashboard",
+      };
 
-      toast.success("Login successful!");
-
-      if (response.data.user.role === "patient") {
-        navigate("/patient-dashboard");
-      } else if (response.data.user.role === "pharmacist") {
-        navigate("/pharmacist-dashboard");
-      }
+      navigate(dashboardRoutes[response.data.user.role] || "/");
     } catch (error) {
-      console.error(error);
-      toast.error("Login failed! Please try again.");
+      console.error("Login failed:", error);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-96">
-        <h2 className="text-2xl font-bold text-center mb-6 text-indigo-600">
-          Log In
-        </h2>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-gray-700" htmlFor="email">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              required
-            />
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-gray-700" htmlFor="password">
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              required
-            />
-          </div>
-
-          <div className="text-center">
-            <button
-              type="submit"
-              className="w-full py-3 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 transition duration-300"
-            >
-              Log In
-            </button>
-          </div>
-        </form>
-        <p className="mt-4 text-center text-gray-600">
-          Don't have an account?{" "}
-          <a href="/signup" className="text-indigo-600 hover:underline">
-            Sign Up
-          </a>
-        </p>
-      </div>
-    </div>
+    <form
+      onSubmit={handleLogin}
+      className="max-w-md mx-auto bg-white p-6 rounded shadow-md"
+    >
+      <h2 className="text-xl font-bold mb-4">Login</h2>
+      <input
+        type="email"
+        placeholder="Email"
+        className="w-full p-2 border rounded mb-2"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        className="w-full p-2 border rounded mb-2"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        required
+      />
+      <button
+        type="submit"
+        className="bg-blue-500 text-white px-4 py-2 rounded w-full"
+      >
+        Login
+      </button>
+    </form>
   );
 };
 
-export default LoginPage;
+export default Login;

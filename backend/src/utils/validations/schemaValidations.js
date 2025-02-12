@@ -42,8 +42,7 @@ const updatePharmacistValidationSchema = joi
 
 const createPrescriptionValidationSchema = joi
   .object({
-    patient: joi.string().required(),
-    createdBy: joi.string().required(),
+    patientId: joi.string().optional(),
     medicine: joi
       .array()
       .items(
@@ -55,6 +54,7 @@ const createPrescriptionValidationSchema = joi
         })
       )
       .min(1)
+      .strict()
       .required(),
   })
   .strict()
@@ -62,8 +62,7 @@ const createPrescriptionValidationSchema = joi
 
 const updatePrescriptionValidationSchema = joi
   .object({
-    patient: joi.string().optional(),
-    createdBy: joi.string().required(),
+    patientId: joi.string().optional(),
     medicine: joi
       .array()
       .items(

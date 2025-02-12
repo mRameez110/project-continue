@@ -585,81 +585,98 @@
 
 // export default App;
 
-import { Routes, Route } from "react-router-dom";
+// import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+// import ProtectedRoute, {
+//   RedirectIfAuthenticated,
+// } from "./routes/ProtectedRoute";
+// import DashboardLayout from "./layouts/DashboardLayout";
+// import PublicLayout from "./layouts/PublicLayout";
+// import AdminDashboard from "./pages/AdminDashboard";
+// import PharmacistDashboard from "./pages/PharmacistDashboard";
+// import PatientDashboard from "./pages/PatientDashboard";
+// import Login from "./pages/LoginPage";
+// import Signup from "./pages/SignupPage";
+
+// function App() {
+//   return (
+//     <>
+//       <Routes>
+//         {/* Public Routes */}
+//         <Route element={<PublicLayout />}>
+//           <Route
+//             path="/login"
+//             element={
+//               <RedirectIfAuthenticated>
+//                 <Login />
+//               </RedirectIfAuthenticated>
+//             }
+//           />
+//           <Route
+//             path="/signup"
+//             element={
+//               <RedirectIfAuthenticated>
+//                 <Signup />
+//               </RedirectIfAuthenticated>
+//             }
+//           />
+//         </Route>
+
+//         {/* Protected Routes */}
+//         <Route
+//           element={
+//             <ProtectedRoute>
+//               <DashboardLayout />
+//             </ProtectedRoute>
+//           }
+//         >
+//           <Route path="/admin-dashboard" element={<AdminDashboard />} />
+//           <Route
+//             path="/pharmacist-dashboard"
+//             element={<PharmacistDashboard />}
+//           />
+//           <Route path="/patient-dashboard" element={<PatientDashboard />} />
+//         </Route>
+//       </Routes>
+//     </>
+//   );
+// }
+
+// export default App;
+
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import RoleBasedRedirect from "./routes/RoleBasedRedirect";
 import DashboardLayout from "./layouts/DashboardLayout";
+import PublicLayout from "./layouts/PublicLayout";
+import Login from "./pages/LoginPage";
+import Signup from "./pages/SignupPage";
 import AdminDashboard from "./pages/AdminDashboard";
 import PharmacistDashboard from "./pages/PharmacistDashboard";
 import PatientDashboard from "./pages/PatientDashboard";
-import MyPrescriptions from "./components/prescriptions/MyPrescriptions";
-import PrescriptionDetail from "./components/prescriptions/PrescriptionDetail";
-import NotFound from "./components/NotFound";
 
-// Route configuration
-const routeConfig = [
-  {
-    path: "/admin-dashboard",
-    element: AdminDashboard,
-    allowedRoles: ["admin"],
-  },
-  {
-    path: "/pharmacist-dashboard",
-    element: PharmacistDashboard,
-    allowedRoles: ["pharmacist"],
-  },
-  {
-    path: "/patient-dashboard",
-    element: PatientDashboard,
-    allowedRoles: ["patient"],
-    subRoutes: [
-      {
-        path: "prescriptions",
-        element: MyPrescriptions,
-      },
-      {
-        path: "prescriptions/:id",
-        element: PrescriptionDetail,
-      },
-    ],
-  },
-];
-
-const App = () => {
+function App() {
   return (
-    <Routes>
-      {/* Dynamic Routing */}
-      {routeConfig.map((route, idx) => {
-        const { path, element: Element, allowedRoles, subRoutes } = route;
+    <>
+      <Routes>
+        <Route element={<PublicLayout />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+        </Route>
 
-        return (
-          <Route
-            key={idx}
-            path={path}
-            element={
-              <ProtectedRoute allowedRoles={allowedRoles}>
-                <DashboardLayout>
-                  <Element />
-                </DashboardLayout>
-              </ProtectedRoute>
-            }
-          >
-            {/* Sub-routes (for patient dashboard, for example) */}
-            {subRoutes &&
-              subRoutes.map((subRoute, idx) => (
-                <Route
-                  key={idx}
-                  path={subRoute.path}
-                  element={<subRoute.element />}
-                />
-              ))}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/dashboard" element={<RoleBasedRedirect />} />
+          <Route element={<DashboardLayout />}>
+            <Route path="/admin-dashboard" element={<AdminDashboard />} />
+            <Route
+              path="/pharmacist-dashboard"
+              element={<PharmacistDashboard />}
+            />
+            <Route path="/patient-dashboard" element={<PatientDashboard />} />
           </Route>
-        );
-      })}
-
-      {/* Fallback Route for 404 */}
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+        </Route>
+      </Routes>
+    </>
   );
-};
+}
 
 export default App;

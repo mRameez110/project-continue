@@ -2,7 +2,11 @@ const mongoose = require("mongoose");
 
 const prescriptionSchema = new mongoose.Schema({
   patient: { type: mongoose.Schema.Types.ObjectId, ref: "Patient" },
-  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
 
   medicine: [
     {

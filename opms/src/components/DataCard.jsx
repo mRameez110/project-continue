@@ -17,6 +17,7 @@
 // export default DataCard;
 
 // src/components/DataCard.jsx
+
 const DataCard = ({ title, description, name, link, type }) => {
   return (
     <div className="bg-white shadow-lg rounded-lg p-6 m-4 w-64">

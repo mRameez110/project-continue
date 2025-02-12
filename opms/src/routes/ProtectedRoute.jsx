@@ -74,22 +74,60 @@
 
 // export default ProtectedRoute;
 
-import { Navigate } from "react-router-dom";
-import { isAuthenticated, getUserRole } from "../utils/auth"; // Adjust the import path as needed
+// import { Navigate } from "react-router-dom";
+// import { isAuthenticated, getUserRole } from "../utils/auth"; // Adjust the import path as needed
 
-const ProtectedRoute = ({ allowedRoles, children }) => {
-  const role = getUserRole();
-  const token = isAuthenticated();
+// const ProtectedRoute = ({ allowedRoles, children }) => {
+//   const role = getUserRole();
+//   const token = isAuthenticated();
 
-  if (!token) {
+//   if (!token) {
+//     return <Navigate to="/login" replace />;
+//   }
+
+//   if (!allowedRoles.includes(role)) {
+//     return <Navigate to="/unauthorized" replace />;
+//   }
+
+//   return children;
+// };
+
+// export default ProtectedRoute;
+
+// import { Navigate } from "react-router-dom";
+// import { isAuthenticated, getUserRole } from "../utils/auth";
+
+// const ProtectedRoute = ({ children }) => {
+//   if (!isAuthenticated()) {
+//     return <Navigate to="/login" replace />;
+//   }
+//   return children;
+// };
+
+// export const RedirectIfAuthenticated = ({ children }) => {
+//   if (isAuthenticated()) {
+//     const role = getUserRole();
+//     const dashboardRoutes = {
+//       admin: "/admin-dashboard",
+//       pharmacist: "/pharmacist-dashboard",
+//       patient: "/patient-dashboard",
+//     };
+//     return <Navigate to={dashboardRoutes[role] || "/"} replace />;
+//   }
+//   return children;
+// };
+
+// export default ProtectedRoute;
+
+import { Navigate, Outlet } from "react-router-dom";
+import { isAuthenticated, getUserRole } from "../utils/auth";
+
+const ProtectedRoute = () => {
+  if (!isAuthenticated()) {
     return <Navigate to="/login" replace />;
   }
 
-  if (!allowedRoles.includes(role)) {
-    return <Navigate to="/unauthorized" replace />;
-  }
-
-  return children;
+  return <Outlet />;
 };
 
 export default ProtectedRoute;

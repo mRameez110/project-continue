@@ -450,15 +450,196 @@
 
 // export default DashboardLayout;
 
+// import { useEffect, useState } from "react";
+// import { getUserRole, getUserName, logout } from "../utils/auth";
+// import { NavLink, useNavigate } from "react-router-dom";
+
+// const DashboardLayout = ({ children }) => {
+//   const navigate = useNavigate();
+//   const [greeting, setGreeting] = useState("");
+//   const role = getUserRole();
+//   const userName = getUserName(); // This should come from your auth context or API (like getUserProfile())
+
+//   useEffect(() => {
+//     const hour = new Date().getHours();
+//     if (hour < 12) setGreeting("Good Morning");
+//     else if (hour < 18) setGreeting("Good Afternoon");
+//     else setGreeting("Good Evening");
+//   }, []);
+
+//   const sidebarOptions = {
+//     admin: [
+//       { name: "Dashboard", path: "/admin-dashboard" },
+//       { name: "Users", path: "/admin/users" },
+//       { name: "Settings", path: "/admin/settings" },
+//     ],
+//     pharmacist: [
+//       { name: "Dashboard", path: "/pharmacist-dashboard" },
+//       { name: "Prescriptions", path: "/pharmacist/prescriptions" },
+//       { name: "Inventory", path: "/pharmacist/inventory" },
+//     ],
+//     patient: [
+//       { name: "Dashboard", path: "/patient-dashboard" },
+//       { name: "My Prescription", path: "/patient/prescriptions" }, // ✅ Yahan sahi path likho
+//       { name: "My Profile", path: "/patient-profile" },
+//     ],
+//   };
+
+//   return (
+//     <div className="flex h-screen">
+//       {/* Sidebar */}
+//       <aside className="w-64 bg-gray-800 text-white p-4">
+//         <h2 className="text-xl font-bold">{role.toUpperCase()} Panel</h2>
+//         <ul className="mt-4">
+//           {sidebarOptions[role]?.map((item) => (
+//             <li key={item.path} className="mt-2">
+//               <NavLink
+//                 to={item.path}
+//                 className={({ isActive }) =>
+//                   isActive
+//                     ? "block p-2 hover:bg-gray-700 bg-gray-600" // Active state class
+//                     : "block p-2 hover:bg-gray-700"
+//                 }
+//               >
+//                 {item.name}
+//               </NavLink>
+//             </li>
+//           ))}
+//         </ul>
+//       </aside>
+
+//       {/* Main Content */}
+//       <main className="flex-1 p-6 bg-gray-100">
+//         {/* Top Bar */}
+//         <div className="flex justify-between items-center bg-white p-4 shadow-md">
+//           <h1 className="text-lg font-semibold">
+//             {greeting}, {role}!
+//           </h1>
+//           <div className="flex items-center space-x-4">
+//             {/* Profile Circle */}
+//             <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
+//               {userName?.charAt(0).toUpperCase()}{" "}
+//               {/* Display the first letter of the user's name */}
+//             </div>
+//             <span>{userName}</span>
+//             <button
+//               onClick={() => {
+//                 logout();
+//                 navigate("/login");
+//               }}
+//               className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700"
+//             >
+//               Logout
+//             </button>
+//           </div>
+//         </div>
+
+//         {/* Page Content */}
+//         <div className="mt-4">{children}</div>
+//       </main>
+//     </div>
+//   );
+// };
+
+// export default DashboardLayout;
+
+// import { useEffect, useState } from "react";
+// import { getUserRole, getUserName, logout } from "../utils/auth";
+// import { NavLink, useNavigate } from "react-router-dom";
+
+// const DashboardLayout = ({ children }) => {
+//   const navigate = useNavigate();
+//   const [greeting, setGreeting] = useState("");
+//   const role = getUserRole();
+//   const userName = getUserName();
+
+//   console.log("see role and username ", role, userName);
+
+//   useEffect(() => {
+//     const hour = new Date().getHours();
+//     if (hour < 12) setGreeting("Good Morning");
+//     else if (hour < 18) setGreeting("Good Afternoon");
+//     else setGreeting("Good Evening");
+//   }, []);
+
+//   const sidebarOptions = {
+//     admin: [
+//       { name: "Dashboard", path: "/admin-dashboard" },
+//       { name: "Users", path: "/admin/users" },
+//       { name: "Settings", path: "/admin/settings" },
+//     ],
+//     pharmacist: [
+//       { name: "Dashboard", path: "/pharmacist-dashboard" },
+//       { name: "Prescriptions", path: "/pharmacist/prescriptions" },
+//       { name: "Inventory", path: "/pharmacist/inventory" },
+//     ],
+//     patient: [
+//       { name: "Dashboard", path: "/patient-dashboard" },
+//       { name: "My Prescription", path: "/patient/prescriptions" },
+//       { name: "My Profile", path: "/patient-profile" },
+//     ],
+//   };
+
+//   return (
+//     <div className="flex h-screen">
+//       <aside className="w-64 bg-gray-800 text-white p-4">
+//         <h2 className="text-xl font-bold">{role.toUpperCase()} Panel</h2>
+//         <ul className="mt-4">
+//           {sidebarOptions[role]?.map((item) => (
+//             <li key={item.path} className="mt-2">
+//               <NavLink
+//                 to={item.path}
+//                 className={({ isActive }) =>
+//                   isActive
+//                     ? "block p-2 hover:bg-gray-700 bg-gray-600"
+//                     : "block p-2 hover:bg-gray-700"
+//                 }
+//               >
+//                 {item.name}
+//               </NavLink>
+//             </li>
+//           ))}
+//         </ul>
+//       </aside>
+
+//       <main className="flex-1 p-6 bg-gray-100">
+//         <div className="flex justify-between items-center bg-white p-4 shadow-md">
+//           <h1 className="text-lg font-semibold">
+//             {greeting}, {role}!
+//           </h1>
+//           <div className="flex items-center space-x-4">
+//             <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
+//               {userName?.charAt(0).toUpperCase()}
+//             </div>
+//             <span>{userName}</span>
+//             <button
+//               onClick={() => {
+//                 logout();
+//                 navigate("/login");
+//               }}
+//               className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700"
+//             >
+//               Logout
+//             </button>
+//           </div>
+//         </div>
+//         <div className="mt-4">{children}</div>
+//       </main>
+//     </div>
+//   );
+// };
+
+// export default DashboardLayout;
+
 import { useEffect, useState } from "react";
 import { getUserRole, getUserName, logout } from "../utils/auth";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, Outlet } from "react-router-dom";
 
-const DashboardLayout = ({ children }) => {
+const DashboardLayout = () => {
   const navigate = useNavigate();
   const [greeting, setGreeting] = useState("");
   const role = getUserRole();
-  const userName = getUserName(); // This should come from your auth context or API (like getUserProfile())
+  const userName = getUserName();
 
   useEffect(() => {
     const hour = new Date().getHours();
@@ -480,14 +661,13 @@ const DashboardLayout = ({ children }) => {
     ],
     patient: [
       { name: "Dashboard", path: "/patient-dashboard" },
-      { name: "My Prescription", path: "/patient-dashboard/prescriptions" },
+      { name: "My Prescription", path: "/patient/prescriptions" },
       { name: "My Profile", path: "/patient-profile" },
     ],
   };
 
   return (
     <div className="flex h-screen">
-      {/* Sidebar */}
       <aside className="w-64 bg-gray-800 text-white p-4">
         <h2 className="text-xl font-bold">{role.toUpperCase()} Panel</h2>
         <ul className="mt-4">
@@ -497,7 +677,7 @@ const DashboardLayout = ({ children }) => {
                 to={item.path}
                 className={({ isActive }) =>
                   isActive
-                    ? "block p-2 hover:bg-gray-700 bg-gray-600" // Active state class
+                    ? "block p-2 hover:bg-gray-700 bg-gray-600"
                     : "block p-2 hover:bg-gray-700"
                 }
               >
@@ -508,18 +688,14 @@ const DashboardLayout = ({ children }) => {
         </ul>
       </aside>
 
-      {/* Main Content */}
       <main className="flex-1 p-6 bg-gray-100">
-        {/* Top Bar */}
         <div className="flex justify-between items-center bg-white p-4 shadow-md">
           <h1 className="text-lg font-semibold">
             {greeting}, {role}!
           </h1>
           <div className="flex items-center space-x-4">
-            {/* Profile Circle */}
             <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
-              {userName?.charAt(0).toUpperCase()}{" "}
-              {/* Display the first letter of the user's name */}
+              {userName?.charAt(0).toUpperCase()}
             </div>
             <span>{userName}</span>
             <button
@@ -533,9 +709,9 @@ const DashboardLayout = ({ children }) => {
             </button>
           </div>
         </div>
-
-        {/* Page Content */}
-        <div className="mt-4">{children}</div>
+        <div className="mt-4">
+          <Outlet />
+        </div>
       </main>
     </div>
   );
