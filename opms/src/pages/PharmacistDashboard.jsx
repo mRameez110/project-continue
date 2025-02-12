@@ -120,13 +120,48 @@
 
 // export default PatientDashboard;
 
-import DashboardLayout from "../components/DashboardLayout";
+// import DashboardLayout from "../components/DashboardLayout";
+
+// const PharmacistDashboard = () => {
+//   return (
+//     // <DashboardLayout>
+//     <h2>Welcome to the Pharmacist Dashboard</h2>
+//     // {/* </DashboardLayout> */}
+//   );
+// };
+
+// export default PharmacistDashboard;
+
+import { useState } from "react";
+import CreatePrescriptionModal from "../components/prescriptions/CreatePrescriptionModal"; // ✅ Import Modal
 
 const PharmacistDashboard = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
-    // <DashboardLayout>
-    <h2>Welcome to the Pharmacist Dashboard</h2>
-    // {/* </DashboardLayout> */}
+    <div className="p-6 max-w-4xl mx-auto">
+      <h2 className="text-2xl font-bold text-center mb-4">
+        Pharmacist Dashboard
+      </h2>
+
+      {/* Create Prescription Button */}
+      <div className="flex justify-end mb-4">
+        <button
+          onClick={() => setIsModalOpen(true)} // ✅ Open Modal on Click
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+        >
+          Create Prescription
+        </button>
+      </div>
+
+      {/* Modal Component (Pass Props) */}
+      {isModalOpen && (
+        <CreatePrescriptionModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
+    </div>
   );
 };
 

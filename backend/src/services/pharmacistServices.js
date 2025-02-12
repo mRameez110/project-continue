@@ -14,20 +14,35 @@ const getAllPharmacistService = async () => {
   return pharmacists;
 };
 
-const getPharmacistService = async (req) => {
-  // const userId = dataObject.params.id;
-  const { loggedInUserId, loggedInUserRole, targetUserId } = req.accessControl;
-  const userIdToFetch = targetUserId || loggedInUserId;
+// const getPharmacistService = async (req) => {
+//   // const userId = dataObject.params.id;
+//   const { loggedInUserId, loggedInUserRole, targetUserId } = req.accessControl;
+//   const userIdToFetch = targetUserId || loggedInUserId;
 
-  const fetchedPharmacist = await pharmacistModel
-    .findOne({
-      user: userIdToFetch,
-    })
+//   const fetchedPharmacist = await pharmacistModel
+//     .findOne({
+//       user: userIdToFetch,
+//     })
+//     .populate("user", ["userName", "email", "role"]);
+
+//   if (!fetchedPharmacist) throw new NotFoundError("No pharmacist found", 404);
+
+//   console.log("see fetched pharmacist ", fetchedPharmacist);
+
+//   return fetchedPharmacist;
+// };
+
+const getPharmacistService = async (dataObject) => {
+  const userId = dataObject.params.id;
+  const findedPharmacist = await pharmacistModel
+    .findOne({ user: userId })
     .populate("user", ["userName", "email", "role"]);
 
-  if (!fetchedPharmacist) throw new NotFoundError("No pharmacist found", 404);
+  if (!findedPharmacist) throw new NotFoundError("No patient found", 404);
 
-  return fetchedPharmacist;
+  console.log("see get pharmacist by id ", findedPharmacist);
+
+  return findedPharmacist;
 };
 
 const updatePharmacistService = async (req) => {

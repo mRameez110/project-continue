@@ -120,7 +120,7 @@
 // export default ProtectedRoute;
 
 import { Navigate, Outlet } from "react-router-dom";
-import { isAuthenticated, getUserRole } from "../utils/auth";
+import { isAuthenticated } from "../utils/auth";
 
 const ProtectedRoute = () => {
   if (!isAuthenticated()) {

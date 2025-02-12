@@ -643,25 +643,41 @@
 
 // export default App;
 
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import RoleBasedRedirect from "./routes/RoleBasedRedirect";
 import DashboardLayout from "./layouts/DashboardLayout";
 import PublicLayout from "./layouts/PublicLayout";
+import Home from "./pages/HomePage";
+import About from "./pages/AboutPage";
+import Contact from "./pages/ContactPage";
+
 import Login from "./pages/LoginPage";
 import Signup from "./pages/SignupPage";
 import AdminDashboard from "./pages/AdminDashboard";
 import PharmacistDashboard from "./pages/PharmacistDashboard";
 import PatientDashboard from "./pages/PatientDashboard";
+import MyPrescriptions from "./components/prescriptions/MyPrescriptions";
+import PrescriptionDetail from "./components/prescriptions/PrescriptionDetail";
+import NotFound from "./components/NotFound";
+import Profile from "./components/profiles/Profile";
+import EditProfile from "./components/profiles/EditProfile";
+import PharmacistProfile from "./components/profiles/PharmacistProfile";
+import CreatePrescriptionModal from "./components/prescriptions/CreatePrescriptionModal";
 
 function App() {
   return (
     <>
       <Routes>
         <Route element={<PublicLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
         </Route>
+
+        {/* All protected routes are below */}
 
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<RoleBasedRedirect />} />
@@ -672,8 +688,46 @@ function App() {
               element={<PharmacistDashboard />}
             />
             <Route path="/patient-dashboard" element={<PatientDashboard />} />
+            {/* ✅ Patient's Prescription Routes */}
+            <Route
+              path="/patient/prescriptions"
+              element={<MyPrescriptions />}
+            />
+            <Route
+              path="/pharmacist/prescriptions"
+              element={<MyPrescriptions />}
+            />
+
+            <Route path="/admin/prescriptions" element={<MyPrescriptions />} />
+            <Route
+              path="/patient/prescription/:id"
+              element={<PrescriptionDetail />}
+            />
+
+            <Route
+              path="pharmacist/prescription/:id"
+              element={<PrescriptionDetail />}
+            />
+            <Route
+              path="admin/prescription/:id"
+              element={<PrescriptionDetail />}
+            />
+
+            {/* <Route
+              path="/create-prescription"
+              element={<CreatePrescriptionModal />}
+            /> */}
+
+            <Route path="/patient-profile" element={<Profile />} />
+            <Route path="/pharmacist-profile" element={<Profile />} />
+            {/* <Route path="/pharmacist-profile" element={<PharmacistProfile />} /> */}
+            <Route path="/admin-profile" element={<Profile />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/edit-profile/:id" element={<EditProfile />} />
           </Route>
         </Route>
+        {/* Fallback Route for 404 */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );

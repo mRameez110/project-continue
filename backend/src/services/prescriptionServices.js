@@ -135,12 +135,12 @@ const {
 // };
 
 const getAllPrescriptionsService = async (req) => {
-  const { role, userId } = req.user; // ✅ Logged-in user's role & ID
+  const { role, userId } = req.user;
   let query = {};
-
+  console.log("check userId ", userId);
   if (role === "patient") {
-    // user id ki help sy patient find kiya ha
     const patient = await patientModel.findOne({ user: userId });
+    console.log("check patient finded", patient);
     if (!patient) {
       throw new NotFoundError("This Patient  not found");
     }
@@ -159,17 +159,16 @@ const getAllPrescriptionsService = async (req) => {
       select: "userName role",
     });
 
-  console.log("see prescripons all ", prescriptions);
-
   const formattedPrescriptions = prescriptions.map((prescription) => ({
     _id: prescription._id,
-
     patientName: prescription.patient?.user?.userName || "Unknown",
-
     createdBy: prescription.createdBy?.userName || "Unknown",
-
     PrescriptionDate: prescription.PrescriptionDate || null,
   }));
+  console.log(
+    "see formated prescriptions length ",
+    formattedPrescriptions.length
+  );
 
   return formattedPrescriptions;
 };
@@ -244,21 +243,18 @@ const createPrescriptionService = async (req) => {
 // };
 
 const getPrescriptionByIdService = async (req) => {
-  const { id } = req.params; // ✅ Prescription ID from URL
-
-  // ✅ Prescription find karna with patient & creator details
+  const { id } = req.params;
+  console.log("see id of param in getprescription byid service  ", id);
   const prescription = await prescriptionModel
     .findById(id)
     .populate({
       path: "patient",
-      populate: { path: "user", select: "userName email" }, // ✅ Fetch patient user details
+      populate: { path: "user", select: "userName email" },
     })
     .populate({
       path: "createdBy",
-      select: "userName role", // ✅ Fetch creator details (Pharmacist/Admin)
+      select: "userName email role",
     });
-
-  console.log("see single prescr ", prescription);
 
   if (!prescription) {
     throw new NotFoundError("Prescription not found");
@@ -270,6 +266,8 @@ const getPrescriptionByIdService = async (req) => {
     patientName: prescription.patient?.user?.userName || "Unknown",
     patientEmail: prescription.patient?.user?.email || "N/A",
     createdBy: prescription.createdBy?.userName || "Unknown",
+    createdByEmail: prescription.createdBy?.email || "Unknown",
+    createdById: prescription.createdBy._id,
     createdByRole: prescription.createdBy?.role || "N/A",
     medicine: prescription.medicine
       ? prescription.medicine.map((med) => ({

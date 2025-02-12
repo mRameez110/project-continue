@@ -18,24 +18,34 @@ const loginValidationSchema = joi
   })
   .options({ abortEarly: true });
 
+// const updatePatientValidationSchema = joi
+//   .object({
+//     // userName: joi.string().min(2).max(30).optional(),
+//     // email: joi.string().email().optional(),
+//     fullName: joi.string().min(3).max(15).optional(),
+//     age: joi.string().min(0).max(120).optional(),
+//     contact: joi.string().min(10).max(15).optional(),
+//   })
+//   // .strict() // Ensures no extra fields are allowed
+//   .options({ abortEarly: true });
+
 const updatePatientValidationSchema = joi
   .object({
-    userName: joi.string().min(3).max(30).optional(),
-    email: joi.string().email().optional(),
     fullName: joi.string().min(3).max(15).optional(),
-    age: joi.number().integer().min(0).max(120).optional(),
+    age: joi.string().min(1).max(3).optional(),
     contact: joi.string().min(10).max(15).optional(),
   })
-  .strict() // Ensures no extra fields are allowed
-  .options({ abortEarly: true });
+  .unknown(false) // ❌ Reject unknown fields (like "message")
+  .options({ abortEarly: false }); // Allow multiple validation errors
 
 const updatePharmacistValidationSchema = joi
   .object({
     userName: joi.string().min(3).max(30).optional(),
     email: joi.string().email().optional(),
     fullName: joi.string().min(3).max(15).optional(),
-    age: joi.number().integer().min(0).max(120).optional(),
+    age: joi.string().min(0).max(120).optional(),
     contact: joi.string().min(10).max(15).optional(),
+    pharmacyBranch: joi.string().min(10).max(15).optional(),
   })
   .strict() // Ensures no extra fields are allowed
   .options({ abortEarly: true });

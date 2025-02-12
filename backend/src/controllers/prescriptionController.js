@@ -41,7 +41,8 @@ const createPrescription = async (req, res, next) => {
 const getPrescriptionById = async (req, res, next) => {
   try {
     const fetchedPrescription = await getPrescriptionByIdService(req);
-    console.log("check ftech prescription ", fetchedPrescription);
+
+    console.log("see single prescr by Id new onw", fetchedPrescription);
     res.status(200).json({
       message: "Prescription fetch Successfully",
       prescription: fetchedPrescription,

@@ -1,7 +1,7 @@
 const express = require("express");
 const {
   getAllPatients,
-  getPatient,
+  getPatientById,
   updatePatient,
   deletePatient,
 } = require("../controllers/patientController");
@@ -23,7 +23,7 @@ router.get(
   "/:id",
   authMiddleware,
   checkPermissionMiddleware("admin", "pharmacist", "patient"),
-  getPatient
+  getPatientById
 );
 
 router.put(

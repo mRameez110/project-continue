@@ -16,13 +16,13 @@ const getAllPatientsService = async () => {
 
 const getPatientService = async (dataObject) => {
   const userId = dataObject.params.id;
-  const findedPatient = await patientModel({ user: userId }).populate("user", [
-    "userName",
-    "email",
-    "role",
-  ]);
+  const findedPatient = await patientModel
+    .findOne({ user: userId })
+    .populate("user", ["userName", "email", "role"]);
 
   if (!findedPatient) throw new NotFoundError("No patient found", 404);
+
+  console.log("see get patient by id ", findedPatient);
 
   return findedPatient;
 };
@@ -61,24 +61,33 @@ const getPatientService = async (dataObject) => {
 const updatePatientService = async (req) => {
   const { loggedInUserId, loggedInUserRole, targetUserId } = req.accessControl;
   const userIdToUpdate = targetUserId || loggedInUserId;
+  console.log("see updated patient req ", req.body);
 
-  if (req.body.userName || req.body.email) {
-    console.log("Updating User Model: ", req.body.userName, req.body.email);
+  // if (req.body.userName || req.body.email) {
+  //   console.log("Updating User Model: ", req.body.userName, req.body.email);
 
-    const updatedUser = await userModel.findByIdAndUpdate(
-      userIdToUpdate,
-      { userName: req.body.userName, email: req.body.email },
-      { new: true }
-    );
+  //   const updatedUser = await userModel.findByIdAndUpdate(
+  //     userIdToUpdate,
+  //     { userName: req.body.userName, email: req.body.email },
+  //     { new: true }
+  //   );
 
-    if (!updatedUser) {
-      throw new NotFoundError("User not found", 404);
-    }
-  }
+  //   if (!updatedUser) {
+  //     throw new NotFoundError("User not found", 404);
+  //   }
+  // }
+
+  await patientModel.findOneAndUpdate({ user: userIdToUpdate }, req.body, {
+    new: true,
+    runValidators: true,
+  });
 
   const updatedPatient = await patientModel
-    .findOneAndUpdate({ user: userIdToUpdate }, req.body, { new: true })
-    .populate("user", "userName email role");
+    .findOne({ user: userIdToUpdate }) // 🔥 Fetch fresh data
+    .populate("user", "userName email role")
+    .lean();
+
+  console.log("see updated patient ", updatedPatient);
 
   if (!updatedPatient) {
     throw new NotFoundError("Patient not found", 404);

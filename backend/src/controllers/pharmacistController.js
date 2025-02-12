@@ -25,12 +25,24 @@ const getAllPharmacists = async (req, res, next) => {
 
 // --> Get patient(single)
 
+// const getPharmacist = async (req, res, next) => {
+//   try {
+//     const fetchedPharmacist = await getPharmacistService(req);
+//     res.status(200).json({
+//       message: "Pharmacist fetch Successfully",
+//       pharmacist: fetchedPharmacist,
+//     });
+//   } catch (err) {
+//     next(err);
+//   }
+// };
+
 const getPharmacist = async (req, res, next) => {
   try {
     const fetchedPharmacist = await getPharmacistService(req);
     res.status(200).json({
       message: "Pharmacist fetch Successfully",
-      pharmacist: fetchedPharmacist,
+      user: fetchedPharmacist,
     });
   } catch (err) {
     next(err);

@@ -309,15 +309,19 @@
 
 // export default PatientDashboard;
 
-import React from "react";
 import { dummyData } from "../data/dummyData";
 import CustomCard from "../components/CustomCard";
+import Profile from "../components/profiles/Profile";
 
 const PatientDashboard = () => {
-  console.log("see dum data ", dummyData);
   return (
     <div className="p-6">
-      <h2 className="text-xl font-semibold mb-4">Patient Dashboard</h2>
+      <div className="p-4">
+        <h2 className="text-3xl font-bold text-center mb-6">
+          Patient Dashboard
+        </h2>
+        {/* <Profile /> */}
+      </div>
 
       {/* Top Pharmacists Section */}
       <div className="mb-6">

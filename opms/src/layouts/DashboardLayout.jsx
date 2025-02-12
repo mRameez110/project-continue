@@ -656,8 +656,9 @@ const DashboardLayout = () => {
     ],
     pharmacist: [
       { name: "Dashboard", path: "/pharmacist-dashboard" },
-      { name: "Prescriptions", path: "/pharmacist/prescriptions" },
+      { name: "My Prescriptions", path: "/pharmacist/prescriptions" },
       { name: "Inventory", path: "/pharmacist/inventory" },
+      { name: "My Profile", path: "/pharmacist-profile" },
     ],
     patient: [
       { name: "Dashboard", path: "/patient-dashboard" },
@@ -669,7 +670,7 @@ const DashboardLayout = () => {
   return (
     <div className="flex h-screen">
       <aside className="w-64 bg-gray-800 text-white p-4">
-        <h2 className="text-xl font-bold">{role.toUpperCase()} Panel</h2>
+        <h2 className="text-xl font-bold">{role} Panel</h2>
         <ul className="mt-4">
           {sidebarOptions[role]?.map((item) => (
             <li key={item.path} className="mt-2">
@@ -691,13 +692,13 @@ const DashboardLayout = () => {
       <main className="flex-1 p-6 bg-gray-100">
         <div className="flex justify-between items-center bg-white p-4 shadow-md">
           <h1 className="text-lg font-semibold">
-            {greeting}, {role}!
+            {greeting}, {userName}!
           </h1>
           <div className="flex items-center space-x-4">
             <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
               {userName?.charAt(0).toUpperCase()}
             </div>
-            <span>{userName}</span>
+
             <button
               onClick={() => {
                 logout();
