@@ -58,7 +58,7 @@ const updatePatient = async (req, res, next) => {
 const deletePatient = async (req, res, next) => {
   try {
     const deletedPatient = await deletePatientService(req);
-    console.log("what in d ", deletedPatient);
+
     res.status(203).json({
       message: "Patient deleted successfully",
       deletedRecode: deletedPatient,

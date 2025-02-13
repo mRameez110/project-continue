@@ -14,8 +14,8 @@ const router = express.Router();
 
 router.get(
   "/",
-  // authMiddleware,
-  // checkPermissionMiddleware("admin", "pharmacist"),
+  authMiddleware,
+  checkPermissionMiddleware("admin", "pharmacist"),
   getAllPatients
 ); // pharmacist and Admin
 

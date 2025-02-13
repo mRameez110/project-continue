@@ -30,6 +30,7 @@ const checkPermission = (...allowedRoles) => {
 
     if (
       loggedInUserRole === "patient" &&
+      ["/patients"].some((route) => req.originalUrl.includes(route)) &&
       targetUserId &&
       loggedInUserId !== targetUserId
     ) {

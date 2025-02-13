@@ -1,7 +1,7 @@
 const { deletePatientService } = require("../services/patientServices");
 const {
   getAllPharmacistService,
-  getPharmacistService,
+  getPharmacistByIdService,
   updatePharmacistService,
   deletePharmacistService,
 } = require("../services/pharmacistServices");
@@ -37,9 +37,9 @@ const getAllPharmacists = async (req, res, next) => {
 //   }
 // };
 
-const getPharmacist = async (req, res, next) => {
+const getPharmacistById = async (req, res, next) => {
   try {
-    const fetchedPharmacist = await getPharmacistService(req);
+    const fetchedPharmacist = await getPharmacistByIdService(req);
     res.status(200).json({
       message: "Pharmacist fetch Successfully",
       user: fetchedPharmacist,
@@ -53,6 +53,7 @@ const getPharmacist = async (req, res, next) => {
 
 const updatePharmacist = async (req, res, next) => {
   try {
+    console.log("see update pharmacist requst hit");
     validation(req.body, updatePharmacistValidationSchema);
 
     const updatedPharmacist = await updatePharmacistService(req);
@@ -80,7 +81,7 @@ const deletePharmacist = async (req, res, next) => {
 
 module.exports = {
   getAllPharmacists,
-  getPharmacist,
+  getPharmacistById,
   updatePharmacist,
   deletePharmacist,
 };

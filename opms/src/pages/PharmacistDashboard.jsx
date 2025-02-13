@@ -1,142 +1,45 @@
-// import React from "react";
+// import { useState } from "react";
+// import CreatePrescriptionModal from "../components/prescriptions/CreatePrescriptionModal"; // ✅ Import Modal
 
 // const PharmacistDashboard = () => {
-//   return (
-//     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-//       <h1 className="text-3xl font-bold">Pharmacist Dashboard</h1>
-//     </div>
-//   );
-// };
-
-// export default PharmacistDashboard;
-
-// src/pages/PharmacistDashboard.jsx
-// import { useEffect, useState } from "react";
-// import Sidebar from "../components/Sidebar";
-
-// const PharmacistDashboard = () => {
-//   const [users, setUsers] = useState([]);
-
-//   useEffect(() => {
-//     fetch("/api/users")
-//       .then((res) => res.json())
-//       .then((data) => setUsers(data));
-//   }, []);
+//   const [isModalOpen, setIsModalOpen] = useState(false);
 
 //   return (
-//     <div className="flex">
-//       <Sidebar role="pharmacist" />
-//       <div className="p-4 w-full">
-//         <h1 className="text-2xl font-bold">Pharmacist Dashboard</h1>
-//         <h2 className="mt-4 font-semibold">All Users</h2>
-//         <ul>
-//           {users.map((user) => (
-//             <li key={user.id}>
-//               {user.name} - {user.role}
-//             </li>
-//           ))}
-//         </ul>
+//     <div className="p-6 max-w-4xl mx-auto">
+//       <h2 className="text-2xl font-bold text-center mb-4">
+//         Pharmacist Dashboard
+//       </h2>
+
+//       {/* Create Prescription Button */}
+//       <div className="flex justify-end mb-4">
+//         <button
+//           onClick={() => setIsModalOpen(true)} // ✅ Open Modal on Click
+//           className="bg-blue-500 text-white px-4 py-2 rounded"
+//         >
+//           Create Prescription
+//         </button>
 //       </div>
+
+//       {/* Modal Component (Pass Props) */}
+//       {isModalOpen && (
+//         <CreatePrescriptionModal
+//           isOpen={isModalOpen}
+//           onClose={() => setIsModalOpen(false)}
+//         />
+//       )}
 //     </div>
-//   );
-// };
-
-// export default PharmacistDashboard;
-
-// import { useEffect, useState } from "react";
-// import DashboardLayout from "../components/DashboardLayout";
-
-// const PharmacistDashboard = () => {
-//   const [users, setUsers] = useState([]);
-//   const [prescriptions, setPrescriptions] = useState([]);
-
-//   useEffect(() => {
-//     fetch("/api/users")
-//       .then((res) => res.json())
-//       .then((data) => setUsers(data));
-
-//     fetch("/api/pharmacist-prescriptions")
-//       .then((res) => res.json())
-//       .then((data) => setPrescriptions(data));
-//   }, []);
-
-//   return (
-//     <DashboardLayout>
-//       <h1>Pharmacist Dashboard</h1>
-
-//       {/* Users List */}
-//       <h2>All Users</h2>
-//       <ul>
-//         {users.map((user) => (
-//           <li key={user.id}>
-//             {user.name} ({user.role})
-//           </li>
-//         ))}
-//       </ul>
-
-//       {/* Prescriptions */}
-//       <h2>Assigned Prescriptions</h2>
-//       <ul>
-//         {prescriptions.map((p) => (
-//           <li key={p.id}>
-//             {p.medicine} - {p.patientName}
-//           </li>
-//         ))}
-//       </ul>
-//     </DashboardLayout>
-//   );
-// };
-
-// export default PharmacistDashboard;
-
-// import { useEffect, useState } from "react";
-// import DashboardLayout from "../components/DashboardLayout";
-
-// const PatientDashboard = () => {
-//   const [prescriptions, setPrescriptions] = useState([]);
-
-//   useEffect(() => {
-//     fetch("/api/my-prescriptions")
-//       .then((res) => res.json())
-//       .then((data) => setPrescriptions(data));
-//   }, []);
-
-//   return (
-//     <DashboardLayout>
-//       <h1>Patient Dashboard</h1>
-
-//       {/* Prescriptions */}
-//       <h2>My Prescriptions</h2>
-//       <ul>
-//         {prescriptions.map((p) => (
-//           <li key={p.id}>
-//             {p.medicine} - {p.doctorName}
-//           </li>
-//         ))}
-//       </ul>
-//     </DashboardLayout>
-//   );
-// };
-
-// export default PatientDashboard;
-
-// import DashboardLayout from "../components/DashboardLayout";
-
-// const PharmacistDashboard = () => {
-//   return (
-//     // <DashboardLayout>
-//     <h2>Welcome to the Pharmacist Dashboard</h2>
-//     // {/* </DashboardLayout> */}
 //   );
 // };
 
 // export default PharmacistDashboard;
 
 import { useState } from "react";
+import CreateUserModal from "../components/CreateUserModal";
 import CreatePrescriptionModal from "../components/prescriptions/CreatePrescriptionModal"; // ✅ Import Modal
 
 const PharmacistDashboard = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+  const [isPrescriptionModalOpen, setIsPrescriptionModalOpen] = useState(false);
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
@@ -144,21 +47,39 @@ const PharmacistDashboard = () => {
         Pharmacist Dashboard
       </h2>
 
+      {/* Create Patient Button */}
+      <div className="flex justify-end mb-4">
+        <button
+          onClick={() => setIsUserModalOpen(true)}
+          className="bg-green-500 text-white px-4 py-2 rounded"
+        >
+          Create Patient
+        </button>
+      </div>
+
+      {isUserModalOpen && (
+        <CreateUserModal
+          isOpen={isUserModalOpen}
+          onClose={() => setIsUserModalOpen(false)}
+          userRole="pharmacist" // Pharmacist can only create patients
+        />
+      )}
+
       {/* Create Prescription Button */}
       <div className="flex justify-end mb-4">
         <button
-          onClick={() => setIsModalOpen(true)} // ✅ Open Modal on Click
+          onClick={() => setIsPrescriptionModalOpen(true)}
           className="bg-blue-500 text-white px-4 py-2 rounded"
         >
           Create Prescription
         </button>
       </div>
 
-      {/* Modal Component (Pass Props) */}
-      {isModalOpen && (
+      {/* Create Prescription Modal */}
+      {isPrescriptionModalOpen && (
         <CreatePrescriptionModal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
+          isOpen={isPrescriptionModalOpen}
+          onClose={() => setIsPrescriptionModalOpen(false)}
         />
       )}
     </div>

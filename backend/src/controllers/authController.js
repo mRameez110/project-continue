@@ -1,4 +1,9 @@
-const { registerService, loginService } = require("../services/authServices");
+const {
+  registerService,
+  loginService,
+  getAllUsersService,
+  getUserByIdService,
+} = require("../services/authServices");
 const {
   validation,
   registerValidationSchema,
@@ -18,7 +23,6 @@ const registerUser = async (req, res, next) => {
 };
 
 //  ---> Login User
-
 const loginUser = async (req, res, next) => {
   try {
     // console.log("check login user controller ");
@@ -36,4 +40,31 @@ const loginUser = async (req, res, next) => {
   }
 };
 
-module.exports = { registerUser, loginUser };
+const getAllUsers = async (req, res, next) => {
+  try {
+    console.log("see all users(Patient/pharmacist/admin) ");
+
+    const users = await getAllUsersService();
+    res.status(200).json({
+      message: "All users fetch successfully ",
+      users,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const getUserById = async (req, res, next) => {
+  try {
+    const findedUser = await getUserByIdService(req);
+    console.log("see get by id patient in cont", findedUser);
+
+    res.status(200).json({
+      message: "Patient fetch Successfully",
+      user: findedUser,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+module.exports = { registerUser, loginUser, getAllUsers, getUserById };

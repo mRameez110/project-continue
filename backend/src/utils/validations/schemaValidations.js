@@ -31,9 +31,10 @@ const loginValidationSchema = joi
 
 const updatePatientValidationSchema = joi
   .object({
-    fullName: joi.string().min(3).max(15).optional(),
-    age: joi.string().min(1).max(3).optional(),
-    contact: joi.string().min(10).max(15).optional(),
+    fullName: joi.string().min(3).max(15).empty("").optional(),
+    age: joi.string().min(1).max(3).empty("").optional(),
+    // contact: joi.string().allow("").min(10).max(15).allow("").optional(),
+    contact: joi.string().min(10).max(15).empty("").optional(),
   })
   .unknown(false) // ❌ Reject unknown fields (like "message")
   .options({ abortEarly: false }); // Allow multiple validation errors
@@ -44,15 +45,15 @@ const updatePharmacistValidationSchema = joi
     email: joi.string().email().optional(),
     fullName: joi.string().min(3).max(15).optional(),
     age: joi.string().min(0).max(120).optional(),
-    contact: joi.string().min(10).max(15).optional(),
-    pharmacyBranch: joi.string().min(10).max(15).optional(),
+    contact: joi.string().min(11).max(20).optional(),
+    pharmacyBranch: joi.string().min(3).max(15).optional(),
   })
   .strict() // Ensures no extra fields are allowed
   .options({ abortEarly: true });
 
 const createPrescriptionValidationSchema = joi
   .object({
-    patientId: joi.string().optional(),
+    patientId: joi.optional() || null,
     medicine: joi
       .array()
       .items(
@@ -72,7 +73,7 @@ const createPrescriptionValidationSchema = joi
 
 const updatePrescriptionValidationSchema = joi
   .object({
-    patientId: joi.string().optional(),
+    patientId: joi.optional() || null,
     medicine: joi
       .array()
       .items(

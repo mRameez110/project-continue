@@ -1,15 +1,21 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 import { getToken, getUserRole, getUserId } from "../../utils/auth";
+import { useNavigate } from "react-router-dom";
+import { showErrorToast, showSuccessToast } from "../../utils/errorHandling";
 
 const token = getToken();
+console.log("see token in create prec ", token);
 const userRole = getUserRole();
 const userId = getUserId();
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const CreatePrescriptionModal = ({ onClose }) => {
+  const navigate = useNavigate();
+  console.log("see token in create prec ", token);
   const [patients, setPatients] = useState([]);
   const [search, setSearch] = useState("");
   const [selectedPatient, setSelectedPatient] = useState("");
@@ -77,8 +83,11 @@ const CreatePrescriptionModal = ({ onClose }) => {
       console.log("see response when medicine created ", response);
 
       onClose();
+      showSuccessToast(response.data.message);
+      navigate(`/${userRole}/prescriptions`);
     } catch (error) {
-      console.error("Error creating prescription", error);
+      console.error("Error creating prescription", error.response.data.message);
+      showErrorToast(error);
     } finally {
       setLoading(false);
     }
@@ -99,10 +108,6 @@ const CreatePrescriptionModal = ({ onClose }) => {
           className="w-full border p-2 rounded mb-2"
           placeholder="Search by username"
         />
-        {/* <select
-          className="w-full border p-2 rounded mb-4"
-          onChange={(e) => setSelectedPatient(e.target.value)}
-        > */}
 
         <select
           className="w-full border p-2 rounded mb-4 text-black bg-white"

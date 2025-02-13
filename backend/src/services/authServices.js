@@ -10,8 +10,8 @@ const {
 const patientModel = require("../models/patientModel");
 const pharmacistModel = require("../models/pharmacistModel");
 
-const registerService = async (dataObject) => {
-  const { userName, email, password, role } = dataObject;
+const registerService = async (req) => {
+  const { userName, email, password, role } = req;
   const userNameAlreadyExist = await userModel.findOne({ userName });
 
   if (userNameAlreadyExist) {
@@ -102,4 +102,27 @@ const loginService = async (dataObject) => {
   return { user: userWithoutPassword, token };
 };
 
-module.exports = { registerService, loginService };
+const getAllUsersService = async () => {
+  const users = await userModel.find();
+  console.log("see All users ", users);
+  return users;
+};
+
+const getUserByIdService = async (dataObject) => {
+  const userId = dataObject.params.id;
+
+  const findedUser = await userModel.findOne({ _id: userId });
+
+  if (!findedUser) throw new NotFoundError("No patient found", 404);
+
+  console.log("see get patient by id ", findedUser);
+
+  return findedUser;
+};
+
+module.exports = {
+  registerService,
+  loginService,
+  getAllUsersService,
+  getUserByIdService,
+};

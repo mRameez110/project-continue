@@ -244,7 +244,7 @@ const createPrescriptionService = async (req) => {
 
 const getPrescriptionByIdService = async (req) => {
   const { id } = req.params;
-  console.log("see id of param in getprescription byid service  ", id);
+  console.log("see id of param in getprescription by id service  ", id);
   const prescription = await prescriptionModel
     .findById(id)
     .populate({

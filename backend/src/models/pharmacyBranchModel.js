@@ -37,7 +37,7 @@ console.log(mongoose.Types.ObjectId.isValid("67a90e01f6048e7a1ab56196"));
 // module.exports = PharmacyBranch;
 
 const pharmacyBranchSchema = new mongoose.Schema({
-  name: { type: String, required: true },
+  branchName: { type: String, required: true },
   address: { type: String },
   contactInfo: { type: String },
   pharmacists: [{ type: mongoose.Schema.Types.ObjectId, ref: "Pharmacist" }],

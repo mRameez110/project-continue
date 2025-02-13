@@ -30,8 +30,8 @@ router.post(
 
 router.get(
   "/:id",
-  // authMiddleware,
-  // checkPermissionMiddleware("admin", "pharmacist", "patient"),
+  authMiddleware,
+  checkPermissionMiddleware("admin", "pharmacist", "patient"),
   getPrescriptionById
 );
 
