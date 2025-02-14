@@ -6,10 +6,9 @@ import PublicLayout from "./layouts/PublicLayout";
 import Home from "./pages/HomePage";
 import About from "./pages/AboutPage";
 import Contact from "./pages/ContactPage";
-
-import { getUserRole } from "./utils/auth";
 import Login from "./pages/LoginPage";
 import Signup from "./pages/SignupPage";
+
 import AdminDashboard from "./pages/AdminDashboard";
 import PharmacistDashboard from "./pages/PharmacistDashboard";
 import PatientDashboard from "./pages/PatientDashboard";
@@ -19,13 +18,15 @@ import NotFound from "./components/NotFound";
 import Profile from "./components/profiles/Profile";
 import EditProfile from "./components/profiles/EditProfile";
 import PharmacistProfile from "./components/profiles/PharmacistProfile";
-import CreatePrescriptionModal from "./components/prescriptions/CreatePrescriptionModal";
 import AllPatients from "./components/patients/AllPatients";
 import PatientDetail from "./components/patients/PatientDetail";
 import EditPatient from "./components/patients/EditPatient";
 import AllPharmacists from "./components/pharmacist/AllPharmacists";
 import PharmacitDetail from "./components/pharmacist/PharmacistDetail";
 import EditPharmacist from "./components/pharmacist/EditPharmacist";
+
+import { getUserRole } from "./utils/auth";
+// import CreatePrescriptionModal from "./components/prescriptions/CreatePrescriptionModal";
 
 function App() {
   const userRole = getUserRole();
