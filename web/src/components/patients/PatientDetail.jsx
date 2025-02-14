@@ -1,6 +1,8 @@
+import { getUserRole } from "../../utils/auth";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
+const userRole = getUserRole();
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -65,6 +67,15 @@ const PatientDetail = () => {
       ) : (
         <p className="text-gray-600">Patient not found.</p>
       )}
+      <span>
+        {" "}
+        <Link
+          to={`/${userRole}/patient/edit/${patient._id}`}
+          className="bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700 transition"
+        >
+          Edit
+        </Link>
+      </span>
     </div>
   );
 };

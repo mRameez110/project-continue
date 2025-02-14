@@ -45,8 +45,12 @@ const checkPermission = (...allowedRoles) => {
       ) &&
       loggedInUserId !== targetUserId
     ) {
+      // throw new ForbiddenError(
+      //   "Pharmacists cannot manage other pharmacists or branches",
+      //   403
+      // );
       throw new ForbiddenError(
-        "Pharmacists cannot manage other pharmacists or branches",
+        "You are not authorized for this request action",
         403
       );
     }

@@ -31,24 +31,47 @@ const loginValidationSchema = joi
 
 const updatePatientValidationSchema = joi
   .object({
-    fullName: joi.string().min(3).max(15).empty("").optional(),
-    age: joi.string().min(1).max(3).empty("").optional(),
-    // contact: joi.string().allow("").min(10).max(15).allow("").optional(),
-    contact: joi.string().min(10).max(15).empty("").optional(),
+    fullName: joi.string().min(3).max(50).empty("").optional(),
+    age: joi.number().integer().min(1).max(120).empty("").optional(),
+    contact: joi
+      .string()
+      .allow("")
+      .pattern(/^[0-9]+$/)
+      .min(10)
+      .max(15)
+      .messages({
+        "string.pattern.base": "Contact must contain only numbers.",
+        "string.min": "Contact must be at least 10 digits.",
+        "string.max": "Contact must not exceed 15 digits.",
+      })
+      .optional(),
   })
-  .unknown(false) // ❌ Reject unknown fields (like "message")
-  .options({ abortEarly: false }); // Allow multiple validation errors
+  .unknown(false)
+  .options({ abortEarly: false });
 
 const updatePharmacistValidationSchema = joi
   .object({
     userName: joi.string().min(3).max(30).optional(),
     email: joi.string().email().optional(),
     fullName: joi.string().min(3).max(15).optional(),
-    age: joi.string().min(0).max(120).optional(),
-    contact: joi.string().min(11).max(20).optional(),
+    // age: joi.string().min(0).max(120).optional(),
+    // contact: joi.string().min(11).max(20).optional(),
+    age: joi.number().integer().min(1).max(120).empty("").optional(),
+    contact: joi
+      .string()
+      .allow("")
+      .pattern(/^[0-9]+$/)
+      .min(10)
+      .max(15)
+      .messages({
+        "string.pattern.base": "Contact must contain only numbers.",
+        "string.min": "Contact must be at least 10 digits.",
+        "string.max": "Contact must not exceed 15 digits.",
+      })
+      .optional(),
     pharmacyBranch: joi.string().min(3).max(15).optional(),
   })
-  .strict() // Ensures no extra fields are allowed
+  .strict()
   .options({ abortEarly: true });
 
 const createPrescriptionValidationSchema = joi

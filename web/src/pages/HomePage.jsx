@@ -2,22 +2,31 @@ import { Link } from "react-router-dom";
 
 const HomePage = () => {
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <h1 className="text-4xl font-bold mb-6">Welcome to the App</h1>
-      <div className="space-x-4">
-        <Link
-          to="/login"
-          className="bg-blue-600 text-white px-6 py-3 rounded text-lg"
-        >
-          Login
-        </Link>
-        <Link
-          to="/about"
-          className="bg-gray-600 text-white px-6 py-3 rounded text-lg"
-        >
-          About
-        </Link>
-      </div>
+    <div className="bg-gray-50">
+      <section
+        id="home"
+        className="h-screen bg-green-400 flex flex-col justify-center items-center text-white px-4"
+      >
+        <h1 className="text-5xl font-extrabold mb-6">Welcome to OPMS</h1>
+        <p className="text-xl mb-8 max-w-2xl text-center">
+          OPMS (Online Pharmacy Management System) is your trusted platform to
+          manage pharmacy services and customer care.
+        </p>
+        <div className="space-x-4">
+          <Link
+            to="/login"
+            className="bg-white text-blue-600 px-6 py-3 rounded-full text-lg font-semibold"
+          >
+            Login
+          </Link>
+          <Link
+            to="/signup"
+            className="bg-transparent text-white border-2 border-white px-6 py-3 rounded-full text-lg font-semibold"
+          >
+            Signup
+          </Link>
+        </div>
+      </section>
     </div>
   );
 };

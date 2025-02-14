@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import { getUserRole, getUserName, logout } from "../utils/auth";
-import { NavLink, useNavigate, Outlet } from "react-router-dom";
+import { NavLink, useNavigate, Outlet, useLocation } from "react-router-dom";
+import BackButton from "../components/CustomBackButton";
 
 const DashboardLayout = () => {
+  const location = useLocation();
   const navigate = useNavigate();
   const [greeting, setGreeting] = useState("");
   const role = getUserRole();
   const userName = getUserName();
+  console.log("see on top my Dashboard Layout.jsx and loged user role ", role);
 
   useEffect(() => {
     const hour = new Date().getHours();
@@ -20,7 +23,7 @@ const DashboardLayout = () => {
       { name: "Dashboard", path: "/admin-dashboard" },
       { name: "All Prescriptions", path: "/admin/prescriptions" },
       { name: "All Patients", path: "/admin/patients" },
-      { name: "All Pharmacist", path: "/admin/pharmacists" },
+      { name: "All Pharmacists", path: "/admin/pharmacists" },
       { name: "My Profile", path: "/admin-profile" },
     ],
     pharmacist: [
@@ -32,7 +35,7 @@ const DashboardLayout = () => {
     ],
     patient: [
       { name: "Dashboard", path: "/patient-dashboard" },
-      { name: "My Prescription", path: "/patient/prescriptions" },
+      { name: "My Prescriptions", path: "/patient/prescriptions" },
       { name: "My Profile", path: "/patient-profile" },
     ],
   };
@@ -82,6 +85,7 @@ const DashboardLayout = () => {
         </div>
         <div className="mt-4">
           <Outlet />
+          {!location.pathname.includes("dashboard") && <BackButton />}
         </div>
       </main>
     </div>

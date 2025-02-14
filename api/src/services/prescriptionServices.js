@@ -140,7 +140,7 @@ const getAllPrescriptionsService = async (req) => {
   console.log("check userId ", userId);
   if (role === "patient") {
     const patient = await patientModel.findOne({ user: userId });
-    console.log("check patient finded", patient);
+    console.log("check finded patient", patient);
     if (!patient) {
       throw new NotFoundError("This Patient  not found");
     }

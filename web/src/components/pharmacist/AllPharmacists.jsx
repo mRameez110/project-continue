@@ -29,9 +29,9 @@ const AllPharmacists = () => {
 
         console.log("see response in all pharmacist.jsx ", response);
         setPharmacits(response.data.pharmacists);
-      } catch (err) {
-        console.log("Error fetching patients:", err);
-        setError("Failed to load patients. Please check authentication.");
+      } catch (error) {
+        console.log("Error fetching patients:", error);
+        setError("Failed to load Pharmacists. Please check authentication.");
         showErrorToast(error);
       } finally {
         setLoading(false);

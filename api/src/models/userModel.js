@@ -20,8 +20,10 @@ const userSchema = new mongoose.Schema({
     enum: ["admin", "pharmacist", "patient"],
     default: "patient",
   },
-
-  createdAt: { type: Date, default: Date.now },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 module.exports = mongoose.model("User", userSchema);

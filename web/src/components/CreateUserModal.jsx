@@ -4,11 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { showErrorToast, showSuccessToast } from "../utils/errorHandling";
 import { getUserRole } from "../utils/auth";
 
-const logedUserRole = getUserRole();
-
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const CreateUserModal = ({ isOpen, onClose, userRole }) => {
+  const logedUserRole = getUserRole();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -41,6 +40,7 @@ const CreateUserModal = ({ isOpen, onClose, userRole }) => {
       if (formData.fullName) userPayload.fullName = formData.fullName;
       if (formData.age) userPayload.age = formData.age;
       if (formData.contact) userPayload.contact = formData.contact;
+      
 
       const response = await axios.post(
         `${API_BASE_URL}/api/auth/register`,
@@ -53,8 +53,12 @@ const CreateUserModal = ({ isOpen, onClose, userRole }) => {
       );
 
       showSuccessToast(response.data.message || "Done sucessfully");
-      onClose();
+      console.log(
+        "check navigation path in console",
+        `/${logedUserRole}/${formData.role}s`
+      );
       navigate(`/${logedUserRole}/${formData.role}s`);
+      onClose();
     } catch (error) {
       console.error("Error creating user:", error);
       showErrorToast(error);

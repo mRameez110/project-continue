@@ -20,7 +20,6 @@ const AdminDashboard = () => {
       </div>
 
       {/* User creation Model */}
-
       {isModalOpen && (
         <CreateUserModal
           isOpen={isModalOpen}
@@ -28,6 +27,7 @@ const AdminDashboard = () => {
           userRole="admin"
         />
       )}
+      
 
       {/* Prescription Creation Model */}
       <div className="flex justify-end mb-4">

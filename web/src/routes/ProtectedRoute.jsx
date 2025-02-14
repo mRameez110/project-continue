@@ -3,7 +3,6 @@ import { isAuthenticated } from "../utils/auth";
 
 const ProtectedRoute = () => {
   if (!isAuthenticated()) {
-    
     return <Navigate to="/login" replace />;
   }
 

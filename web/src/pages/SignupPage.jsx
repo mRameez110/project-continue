@@ -61,7 +61,7 @@ const Signup = () => {
       >
         <option value="patient">Patient</option>
         <option value="pharmacist">Pharmacist</option>
-        {/* <option value="admin">Admin</option> */}
+        <option value="admin">Admin</option>
       </select>
       <button
         type="submit"

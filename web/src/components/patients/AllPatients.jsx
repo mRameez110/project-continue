@@ -3,13 +3,14 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { getUserRole } from "../../utils/auth";
 import { showErrorToast, showSuccessToast } from "../../utils/errorHandling";
-
+import CreateUserModal from "../CreateUserModal";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const AllPatients = () => {
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const userRole = getUserRole();
 
@@ -57,7 +58,9 @@ const AllPatients = () => {
       );
 
       console.log("see deleted patient response in All patient.jsx ", response);
-      setPatients((prevPatients) => prevPatients.filter((p) => p._id !== id));
+      setPatients((prevPatients) =>
+        prevPatients.reverse().filter((p) => p._id !== id)
+      );
       showSuccessToast(response.data.message);
     } catch (error) {
       console.error("Error deleting patient:", error);
@@ -70,7 +73,35 @@ const AllPatients = () => {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-6 text-gray-800">All Patients</h1>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold text-gray-800">All Patients</h1>
+
+        {userRole === "admin" && (
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="bg-green-500 text-white px-4 py-2 rounded"
+          >
+            Create User
+          </button>
+        )}
+
+        {userRole === "pharmacist" && (
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="bg-green-500 text-white px-4 py-2 rounded"
+          >
+            Create Patient
+          </button>
+        )}
+      </div>
+
+      {isModalOpen && (
+        <CreateUserModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          userRole={userRole}
+        />
+      )}
 
       {patients.length === 0 ? (
         <p className="text-gray-600">No patients found.</p>
@@ -87,7 +118,7 @@ const AllPatients = () => {
               </tr>
             </thead>
             <tbody>
-              {patients.map((patient, index) => (
+              {patients.reverse().map((patient, index) => (
                 <tr
                   key={patient._id}
                   className="border-b hover:bg-gray-100 transition"

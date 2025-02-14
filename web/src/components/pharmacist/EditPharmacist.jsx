@@ -35,15 +35,16 @@ const EditPharmacist = () => {
           }
         );
 
-        console.log("see response in edit pharmacist.jsx ", response.data.user);
+        console.log("see response in edit pharmacist.jsx ", response);
 
         const { fullName, age, contact } = response.data.user;
         setFullName(fullName || "N/A");
         setAge(age || "N/A");
         setContact(contact || "N/A");
       } catch (err) {
-        console.error("Error fetching patient:", err);
-        setError("Failed to load patient details.");
+        console.error("Error fetching pharmacist:", err);
+        setError("Failed to load pharmacist details.");
+        showErrorToast(error);
       } finally {
         setLoading(false);
       }
@@ -69,7 +70,7 @@ const EditPharmacist = () => {
       showSuccessToast(response.data.message);
       navigate(`/${userRole}/pharmacists`);
     } catch (error) {
-      console.error("Error updating patient:", error);
+      console.error("Error updating pharmacist:", error);
       showErrorToast(error);
     }
   };
@@ -91,7 +92,6 @@ const EditPharmacist = () => {
             className="w-full border p-2 rounded-md"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
-            required
           />
 
           <label className="block text-gray-700 font-medium">Age</label>
@@ -100,7 +100,6 @@ const EditPharmacist = () => {
             className="w-full border p-2 rounded-md"
             value={age}
             onChange={(e) => setAge(e.target.value)}
-            required
           />
 
           <label className="block text-gray-700 font-medium">Contact</label>
@@ -109,21 +108,7 @@ const EditPharmacist = () => {
             className="w-full border p-2 rounded-md"
             value={contact}
             onChange={(e) => setContact(e.target.value)}
-            required
           />
-
-          {/* {userRole === "pharmacist" && (
-          
-            <input
-              type="text"
-              name="pharmacyBranch"
-              value={profileData.pharmacyName}
-              onChange={handleChange}
-              placeholder="Pharmacy Branch"
-              className="w-full p-2 border rounded"
-            />
-          
-        )} */}
         </div>
 
         <button

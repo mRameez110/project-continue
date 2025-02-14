@@ -17,11 +17,6 @@ const prescriptionSchema = new mongoose.Schema({
     },
   ],
 
-  // medicineName: { type: String },
-  // dosage: { type: String },
-  // frequency: { type: String },
-  // duration: { type: String },
-
   PrescriptionDate: { type: Date, default: Date.now },
 });
 
