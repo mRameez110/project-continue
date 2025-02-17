@@ -22,26 +22,28 @@ router.post(
 
 router.get(
   "/",
-  // authMiddleware,
+  authMiddleware,
+  checkPermissionMiddleware("pharmacist", "admin"),
   getPharmacyBranches
 );
 router.get(
   "/:id",
-  // authMiddleware,
+  authMiddleware,
+  checkPermissionMiddleware("pharmacist", "admin"),
   getPharmacyBranchById
 );
 
 router.put(
   "/:id",
-  //   authMiddleware,
-  //   permissionMiddleware("admin"),
+  authMiddleware,
+  checkPermissionMiddleware("admin"),
   updatePharmacyBranch
 );
 
 router.delete(
   "/:id",
-  //   authMiddleware,
-  //   permissionMiddleware("admin"),
+  authMiddleware,
+  checkPermissionMiddleware("admin"),
   deletePharmacyBranch
 );
 

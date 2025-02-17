@@ -1,5 +1,3 @@
-const mongoose = require("mongoose");
-
 const {
   createPharmacyBranchService,
   getPharmacyBranchesService,
@@ -31,8 +29,11 @@ const createPharmacyBranch = async (req, res, next) => {
 
 const getPharmacyBranches = async (req, res, next) => {
   try {
-    const branches = await getPharmacyBranchesService();
-    res.status(200).json(branches);
+    const branches = await getPharmacyBranchesService(req);
+    res.status(200).json({
+      message: "Branches fetched successful ",
+      branches: branches,
+    });
   } catch (err) {
     next(err);
   }
@@ -41,20 +42,40 @@ const getPharmacyBranches = async (req, res, next) => {
 const getPharmacyBranchById = async (req, res, next) => {
   try {
     const branch = await getPharmacyBranchByIdService(req);
-    res.status(200).json(branch);
+    res.status(200).json({
+      message: "branch fetched successfully",
+      branch: branch,
+    });
   } catch (err) {
     next(err);
   }
 };
 
+// const updatePharmacyBranch = async (req, res, next) => {
+//   try {
+
+//     validation(req.body, updatePharmacyBranchValidationSchema);
+//     const updatedBranch = await updatePharmacyBranchService(req);
+//     res
+//       .status(200)
+//       .json({ message: "Pharmacy Branch updated successfully", updatedBranch });
+//   } catch (err) {
+//     next(err);
+//   }
+// };
+
 const updatePharmacyBranch = async (req, res, next) => {
   try {
-    console.log("see update req ", req.body);
+    // Validation of request body
     validation(req.body, updatePharmacyBranchValidationSchema);
+
+    // Update the pharmacy branch details
     const updatedBranch = await updatePharmacyBranchService(req);
-    res
-      .status(200)
-      .json({ message: "Pharmacy Branch updated successfully", updatedBranch });
+
+    res.status(200).json({
+      message: "Pharmacy Branch updated successfully",
+      updatedBranch,
+    });
   } catch (err) {
     next(err);
   }

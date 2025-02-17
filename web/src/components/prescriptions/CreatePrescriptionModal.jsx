@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
 import { getToken, getUserRole, getUserId } from "../../utils/auth";
 import { useNavigate } from "react-router-dom";
 import { showErrorToast, showSuccessToast } from "../../utils/errorHandling";
@@ -10,10 +9,10 @@ const userRole = getUserRole();
 const userId = getUserId();
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-const CreatePrescriptionModal = ({ onClose }) => {
+const CreatePrescriptionModal = ({ onClose, patientId }) => {
   const navigate = useNavigate();
   const [patients, setPatients] = useState([]);
-  const [selectedPatient, setSelectedPatient] = useState("");
+  const [selectedPatient, setSelectedPatient] = useState(patientId || "");
   const [medicine, setMedicine] = useState([
     { medicineName: "", dosage: "", frequency: "", duration: "" },
   ]);
@@ -29,7 +28,7 @@ const CreatePrescriptionModal = ({ onClose }) => {
         const response = await axios.get(`${API_BASE_URL}/api/patients`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setPatients(response.data.patients);
+        setPatients(response.data.patients.reverse());
       } catch (error) {
         console.error("Error fetching patients", error);
       }
@@ -107,17 +106,27 @@ const CreatePrescriptionModal = ({ onClose }) => {
         <label className="block text-sm font-medium text-gray-700 mb-1">
           Select Patient
         </label>
-        <select
-          className="w-full border p-2 rounded mb-4 text-black bg-white"
-          onChange={(e) => setSelectedPatient(e.target.value)}
-        >
-          <option value="">General Prescription</option>
-          {patients.reverse().map((patient) => (
-            <option key={patient._id} value={patient._id}>
-              {patient.user?.userName}
-            </option>
-          ))}
-        </select>
+        {patientId ? (
+          <input
+            type="text"
+            value={
+              patients.find((p) => p._id === patientId)?.user?.userName || "N/A"
+            }
+            disabled
+            className="w-full border p-2 rounded mb-4 text-black bg-white"
+          />
+        ) : (
+          <select
+            className="w-full border p-2 rounded mb-4 text-black bg-white"
+            onChange={(e) => setSelectedPatient(e.target.value)}
+          >
+            {patients.map((patient) => (
+              <option key={patient._id} value={patient._id}>
+                {patient.user?.userName}
+              </option>
+            ))}
+          </select>
+        )}
 
         <h3 className="font-semibold mb-2">Medicine Details</h3>
         {medicine.map((med, index) => (

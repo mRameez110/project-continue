@@ -121,3 +121,10 @@
 html {
   scroll-behavior: smooth;
 }
+
+.back-button-container {
+  position: sticky;
+  bottom: 10px;
+  left: 10px;
+  z-index: 50;
+}

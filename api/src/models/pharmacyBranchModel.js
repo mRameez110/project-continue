@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
 const pharmacyBranchSchema = new mongoose.Schema({
-  branchName: { type: String, required: true },
+  name: { type: String, required: true },
   address: { type: String },
-  contactInfo: { type: String },
+  contact: { type: String },
   pharmacists: [{ type: mongoose.Schema.Types.ObjectId, ref: "Pharmacist" }],
   createdAt: { type: Date, default: Date.now },
 });

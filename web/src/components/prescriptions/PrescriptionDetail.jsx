@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Navigate, useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { getToken, getUserRole, getUserId } from "../../utils/auth";
 import { showErrorToast, showSuccessToast } from "../../utils/errorHandling";
@@ -34,7 +34,7 @@ const PrescriptionDetail = () => {
         );
 
         console.log(
-          "see presction response in prescription details.jsx",
+          "see prescription response in prescription details.jsx",
           response
         );
         setPrescription(response.data.prescription);
@@ -57,8 +57,6 @@ const PrescriptionDetail = () => {
 
   const handleEdit = async (prescriptionId) => {
     try {
-      const token = localStorage.getItem("token");
-
       if (!token) {
         throw new Error("No authentication token found!");
       }
@@ -67,7 +65,7 @@ const PrescriptionDetail = () => {
 
       const response = await axios.put(
         `${API_BASE_URL}/api/prescriptions/${prescriptionId}`,
-        updatedMedicineData, // ✅ Only sending necessary data
+        updatedMedicineData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -77,7 +75,7 @@ const PrescriptionDetail = () => {
       );
 
       console.log("Prescription updated:", response.data);
-      navigate("/pharmacist/prescriptions");
+      navigate(`/${userRole}/prescriptions`);
       showSuccessToast(response.data.message);
     } catch (error) {
       console.error("Error updating prescription", error);
@@ -86,6 +84,7 @@ const PrescriptionDetail = () => {
   };
 
   const handleDelete = async (prescriptionId) => {
+    if (!window.confirm("Are you sure you want to delete?")) return;
     try {
       if (!token) {
         throw new Error("No authentication token found!");
@@ -98,7 +97,7 @@ const PrescriptionDetail = () => {
         }
       );
 
-      navigate("/pharmacist/prescriptions");
+      navigate(`/${userRole}/prescriptions`);
       showSuccessToast(response.data.message);
     } catch (error) {
       console.error("Error deleting prescription", error);
@@ -225,7 +224,7 @@ const PrescriptionDetail = () => {
               onClick={() => setIsEditing(!isEditing)}
               className="bg-yellow-500 text-white px-3 py-1 rounded"
             >
-              {isEditing ? "Save" : "Edit"}
+              {isEditing ? "Cancel" : "Edit"}
             </button>
             {isEditing && (
               <button

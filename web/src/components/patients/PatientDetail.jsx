@@ -2,8 +2,10 @@ import { getUserRole } from "../../utils/auth";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
-const userRole = getUserRole();
 
+import CreatePrescriptionModal from "../prescriptions/CreatePrescriptionModal";
+
+const userRole = getUserRole();
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const PatientDetail = () => {
@@ -11,6 +13,7 @@ const PatientDetail = () => {
   const [patient, setPatient] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isPrescriptionModalOpen, setIsPrescriptionModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchPatient = async () => {
@@ -63,19 +66,40 @@ const PatientDetail = () => {
           <p className="text-gray-700 font-medium">
             Contact: {patient.contact || "N/A"}
           </p>
+
+          {userRole && userRole !== "patient" && (
+            <>
+              <div className="flex justify-end mb-4">
+                <button
+                  onClick={() => setIsPrescriptionModalOpen(true)}
+                  className="bg-blue-500 text-white px-4 py-2 rounded"
+                >
+                  Assign Prescription
+                </button>
+              </div>
+
+              {isPrescriptionModalOpen && (
+                <CreatePrescriptionModal
+                  isOpen={isPrescriptionModalOpen}
+                  onClose={() => setIsPrescriptionModalOpen(false)}
+                  patientId={id} 
+                />
+              )}
+            </>
+          )}
+
+          <div className="flex justify-end mt-4">
+            <Link
+              to={`/${userRole}/patient/edit/${patient._id}`}
+              className="bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700 transition"
+            >
+              Edit
+            </Link>
+          </div>
         </div>
       ) : (
         <p className="text-gray-600">Patient not found.</p>
       )}
-      <span>
-        {" "}
-        <Link
-          to={`/${userRole}/patient/edit/${patient._id}`}
-          className="bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700 transition"
-        >
-          Edit
-        </Link>
-      </span>
     </div>
   );
 };

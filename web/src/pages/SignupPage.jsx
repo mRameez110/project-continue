@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { data, useNavigate } from "react-router-dom";
 import { signup } from "../utils/auth";
 import { showErrorToast, showSuccessToast } from "../utils/errorHandling";
 
@@ -7,7 +7,7 @@ const Signup = () => {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("patient"); // Default role
+  const [role, setRole] = useState("patient");
   const navigate = useNavigate();
 
   const handleSignup = async (e) => {
@@ -16,7 +16,7 @@ const Signup = () => {
       const response = await signup({ userName, email, password, role });
       navigate("/login");
       console.log("See Signup response ", response);
-      showSuccessToast(response.message);
+      showSuccessToast(response.data.message);
     } catch (error) {
       console.error("Signup failed:", error);
       showErrorToast(error);
@@ -61,7 +61,7 @@ const Signup = () => {
       >
         <option value="patient">Patient</option>
         <option value="pharmacist">Pharmacist</option>
-        <option value="admin">Admin</option>
+        {/* <option value="admin">Admin</option> */}
       </select>
       <button
         type="submit"

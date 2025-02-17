@@ -25,7 +25,6 @@ app.use("/api/auth", authRoutes);
 app.use("/api/patients", patientRoutes);
 app.use("/api/pharmacists", pharmacistRoutes);
 app.use("/api/prescriptions", prescriptionRoutes);
-// app.use("/api/pharmacies");
 app.use("/api/pharmacy-branches", pharmacyBranchRoutes);
 
 app.use("*", (req, res) => {

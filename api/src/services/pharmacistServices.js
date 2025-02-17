@@ -147,6 +147,7 @@ const deletePharmacistService = async (req) => {
 
   return deletedPharmacist;
 };
+
 module.exports = {
   getAllPharmacistService,
   getPharmacistByIdService,

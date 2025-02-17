@@ -8,7 +8,7 @@ export const signup = async ({ userName, email, password, role }) => {
       "http://localhost:8000/api/auth/register",
       { userName, email, password, role }
     );
-    return response.data;
+    return response;
   } catch (error) {
     console.error("Signup error:", error);
     throw error;
@@ -22,7 +22,7 @@ export const login = async ({ email, password }) => {
       password,
     });
 
-    token = response.data.token; // Store in memory
+    token = response.data.token;
     localStorage.setItem("token", token);
     localStorage.setItem("userId", response.data.user._id);
     localStorage.setItem("userRole", response.data.user.role);
@@ -40,12 +40,12 @@ export const getToken = () => {
   return token;
 };
 
-export const isAuthenticated = () => !!getToken();
+export const isAuthenticated = () => getToken();
 export const getUserRole = () => localStorage.getItem("userRole");
 export const getUserId = () => localStorage.getItem("userId");
 export const getUserName = () => localStorage.getItem("userName");
 
 export const logout = () => {
-  token = null; // ✅ Clear token from memory
+  token = null;
   localStorage.clear();
 };

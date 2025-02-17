@@ -10,12 +10,10 @@ const EditProfile = () => {
   const userRole = getUserRole();
   const userId = getUserId();
 
-  // Initialize state based on user role
   const [profileData, setProfileData] = useState({
     fullName: "",
     contact: "",
-    ...(userRole === "patient" ? { age: "" } : {}),
-    ...(userRole === "pharmacist" ? { pharmacyName: "", location: "" } : {}),
+    age: "",
   });
 
   useEffect(() => {
@@ -31,21 +29,12 @@ const EditProfile = () => {
           }
         );
 
-        console.log("Fetched profile data:", response.data);
-
-        // Ensure fields are not empty, undefined, or null
         const fetchedData = response.data.user || {};
 
         setProfileData({
           fullName: fetchedData.fullName || "N/A",
           contact: fetchedData.contact || "N/A",
           age: fetchedData.age || "N/A",
-          // ...(userRole === "pharmacist"
-          //   ? {
-          //       pharmacyName: fetchedData.pharmacyName || "N/A",
-          //       location: fetchedData.location || "N/A",
-          //     }
-          //   : {}),
         });
       } catch (error) {
         console.error("Error fetching profile:", error);
@@ -63,10 +52,11 @@ const EditProfile = () => {
     e.preventDefault();
     const token = localStorage.getItem("token");
 
-    const { message, user, ...cleanData } = profileData;
+    let { fullName, contact, age } = profileData;
+
+    const cleanData = { fullName, contact, age };
 
     try {
-      console.log("see clean data ", cleanData);
       const response = await axios.put(
         `${API_BASE_URL}/api/${userRole}s/${userId}`,
         cleanData,
@@ -75,7 +65,6 @@ const EditProfile = () => {
         }
       );
 
-      console.log("Profile updated successfully:", response.data);
       showSuccessToast(response.data.message);
       navigate("/profile");
     } catch (error) {
@@ -115,18 +104,6 @@ const EditProfile = () => {
           placeholder="Contact"
           className="w-full p-2 border rounded"
         />
-
-        {/* {userRole === "pharmacist" && (
-            
-              <input
-                type="text"
-                name="pharmacyBranch"
-                value={profileData.pharmacyName}
-                onChange={handleChange}
-                placeholder="Pharmacy Branch"
-                className="w-full p-2 border rounded"
-              /> 
-          )} */}
 
         <button
           type="submit"

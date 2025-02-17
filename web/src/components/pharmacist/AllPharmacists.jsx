@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { getUserRole } from "../../utils/auth";
 import { showErrorToast, showSuccessToast } from "../../utils/errorHandling";
+import CreateUserModal from "../CreateUserModal";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -12,6 +13,7 @@ const AllPharmacists = () => {
   const [pharmacits, setPharmacits] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchPharmacists = async () => {
@@ -28,9 +30,9 @@ const AllPharmacists = () => {
         });
 
         console.log("see response in all pharmacist.jsx ", response);
-        setPharmacits(response.data.pharmacists);
+        setPharmacits(response.data.pharmacists.reverse());
       } catch (error) {
-        console.log("Error fetching patients:", error);
+        console.log("Error fetching pharmacists:", error);
         setError("Failed to load Pharmacists. Please check authentication.");
         showErrorToast(error);
       } finally {
@@ -42,7 +44,7 @@ const AllPharmacists = () => {
   }, []);
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this patient?"))
+    if (!window.confirm("Are you sure you want to delete this pharmacist?"))
       return;
 
     try {
@@ -62,12 +64,12 @@ const AllPharmacists = () => {
       );
       setPharmacits((prevPharmacists) =>
         prevPharmacists.filter((p) => p._id !== id)
-      ); // I m filtering instead of new get all request
+      );
 
       showSuccessToast(response.data.message);
     } catch (error) {
-      console.error("Error deleting patient:", error);
-      alert("Failed to delete patient.");
+      console.error("Error deleting pharmacist:", error);
+      alert("Failed to delete pharmacist.");
     }
   };
 
@@ -76,10 +78,31 @@ const AllPharmacists = () => {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-6 text-gray-800">All Pharmacists</h1>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold text-gray-800">All Pharmacists</h1>
+
+        {/* Show Create User button for admin or pharmacist role */}
+        {(userRole === "admin" || userRole === "pharmacist") && (
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="bg-green-500 text-white px-4 py-2 rounded"
+          >
+            Create Pharmacist
+          </button>
+        )}
+      </div>
+
+      {/* Modal for creating new user */}
+      {isModalOpen && (
+        <CreateUserModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          userRole={userRole}
+        />
+      )}
 
       {!pharmacits || pharmacits.length === 0 ? (
-        <p className="text-gray-600">No pharmacits found.</p>
+        <p className="text-gray-600">No pharmacists found.</p>
       ) : (
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
@@ -93,7 +116,7 @@ const AllPharmacists = () => {
               </tr>
             </thead>
             <tbody>
-              {pharmacits.reverse().map((pharmacist, index) => (
+              {pharmacits.map((pharmacist, index) => (
                 <tr
                   key={pharmacist._id}
                   className="border-b hover:bg-gray-100 transition"

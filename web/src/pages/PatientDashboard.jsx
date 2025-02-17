@@ -1,6 +1,5 @@
 import { dummyData } from "../data/dummyData";
 import CustomCard from "../components/CustomCard";
-import Profile from "../components/profiles/Profile";
 
 const PatientDashboard = () => {
   return (
@@ -9,37 +8,17 @@ const PatientDashboard = () => {
         <h2 className="text-3xl font-bold text-center mb-6">
           Patient Dashboard
         </h2>
-        {/* <Profile /> */}
       </div>
 
       {/* Top Pharmacists Section */}
       <div className="mb-6">
-        <h3 className="text-lg font-medium mb-2">Top Pharmacists</h3>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          {dummyData.pharmacists.slice(0, 5).map((pharmacist) => (
-            <CustomCard
-              key={pharmacist.id}
-              title={pharmacist.name}
-              subtitle={pharmacist.title}
-              link={pharmacist.link}
-              linkText="View Profile"
-            />
-          ))}
-        </div>
-      </div>
+        <h3 className="text-xl font-medium mb-4">Top Pharmacists</h3>
 
-      {/* Top Prescriptions Section */}
-      <div>
-        <h3 className="text-lg font-medium mb-2">Top Prescriptions</h3>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          {dummyData.prescriptions.slice(0, 5).map((prescription) => (
-            <CustomCard
-              key={prescription.id}
-              title={prescription.title}
-              subtitle={prescription.description}
-              link={prescription.link}
-              linkText="View Details"
-            />
+        {/* Cards Grid Layout */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+          {dummyData.pharmacists.slice(0, 5).map((pharmacist) => (
+            // Passing the whole 'pharmacist' object to the CustomCard
+            <CustomCard key={pharmacist.id} pharmacist={pharmacist} />
           ))}
         </div>
       </div>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
+import { getUserRole } from "../../utils/auth";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -9,6 +10,7 @@ const PharmacitDetail = () => {
   const [pharmacist, setPharmacist] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const userRole = getUserRole();
 
   useEffect(() => {
     const fetchPharmacist = async () => {
@@ -65,12 +67,14 @@ const PharmacitDetail = () => {
             Contact: {pharmacist.contact}
           </p>
 
-          {/* <Link
-            to={`/admin/patient/edit/${patient._id}`}
-            className="mt-4 inline-block bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700 transition"
-          >
-            Edit Patient
-          </Link> */}
+          <div className="flex justify-end mt-4">
+            <Link
+              className="bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700 transition"
+              to={`/${userRole}/pharmacist/edit/${pharmacist._id}`}
+            >
+              Edit
+            </Link>
+          </div>
         </div>
       ) : (
         <p className="text-gray-600">Patient not found.</p>

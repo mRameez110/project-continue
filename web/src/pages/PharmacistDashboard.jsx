@@ -1,38 +1,3 @@
-// import { useState } from "react";
-// import CreatePrescriptionModal from "../components/prescriptions/CreatePrescriptionModal"; // ✅ Import Modal
-
-// const PharmacistDashboard = () => {
-//   const [isModalOpen, setIsModalOpen] = useState(false);
-
-//   return (
-//     <div className="p-6 max-w-4xl mx-auto">
-//       <h2 className="text-2xl font-bold text-center mb-4">
-//         Pharmacist Dashboard
-//       </h2>
-
-//       {/* Create Prescription Button */}
-//       <div className="flex justify-end mb-4">
-//         <button
-//           onClick={() => setIsModalOpen(true)} // ✅ Open Modal on Click
-//           className="bg-blue-500 text-white px-4 py-2 rounded"
-//         >
-//           Create Prescription
-//         </button>
-//       </div>
-
-//       {/* Modal Component (Pass Props) */}
-//       {isModalOpen && (
-//         <CreatePrescriptionModal
-//           isOpen={isModalOpen}
-//           onClose={() => setIsModalOpen(false)}
-//         />
-//       )}
-//     </div>
-//   );
-// };
-
-// export default PharmacistDashboard;
-
 import { useState } from "react";
 import CreateUserModal from "../components/CreateUserModal";
 import CreatePrescriptionModal from "../components/prescriptions/CreatePrescriptionModal"; // ✅ Import Modal
@@ -47,7 +12,6 @@ const PharmacistDashboard = () => {
         Pharmacist Dashboard
       </h2>
 
-      {/* Create Patient Button */}
       <div className="flex justify-end mb-4">
         <button
           onClick={() => setIsUserModalOpen(true)}
@@ -61,7 +25,7 @@ const PharmacistDashboard = () => {
         <CreateUserModal
           isOpen={isUserModalOpen}
           onClose={() => setIsUserModalOpen(false)}
-          userRole="pharmacist" // Pharmacist can only create patients
+          userRole="pharmacist"
         />
       )}
 

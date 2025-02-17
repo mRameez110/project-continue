@@ -3,8 +3,6 @@ const mongoose = require("mongoose");
 const pharmacistSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   fullName: { type: String },
-  // age: { type: String },
-  // contact: { type: String },
   age: { type: Number },
   contact: {
     type: String,

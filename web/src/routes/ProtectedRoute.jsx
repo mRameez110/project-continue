@@ -1,12 +1,12 @@
-import { Navigate, Outlet } from "react-router-dom";
-import { isAuthenticated } from "../utils/auth";
+  import { Navigate, Outlet } from "react-router-dom";
+  import { isAuthenticated } from "../utils/auth";
 
-const ProtectedRoute = () => {
-  if (!isAuthenticated()) {
-    return <Navigate to="/login" replace />;
-  }
+  const ProtectedRoute = () => {
+    if (!isAuthenticated()) {
+      return <Navigate to="/login" replace />;
+    }
 
-  return <Outlet />;
-};
+    return <Outlet />;
+  };
 
-export default ProtectedRoute;
+  export default ProtectedRoute;

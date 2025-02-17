@@ -6,7 +6,7 @@ const registerValidationSchema = joi
   .object({
     userName: joi.string().min(3).max(50).trim().required(),
     email: joi.string().email().min(1).max(50).trim().required(),
-    password: joi.string().min(1).required(),
+    password: joi.string().min(2).required(),
     role: joi.string().required(),
   })
   .options({ abortEarly: true });
@@ -18,21 +18,10 @@ const loginValidationSchema = joi
   })
   .options({ abortEarly: true });
 
-// const updatePatientValidationSchema = joi
-//   .object({
-//     // userName: joi.string().min(2).max(30).optional(),
-//     // email: joi.string().email().optional(),
-//     fullName: joi.string().min(3).max(15).optional(),
-//     age: joi.string().min(0).max(120).optional(),
-//     contact: joi.string().min(10).max(15).optional(),
-//   })
-//   // .strict() // Ensures no extra fields are allowed
-//   .options({ abortEarly: true });
-
 const updatePatientValidationSchema = joi
   .object({
     fullName: joi.string().min(3).max(50).empty("").optional(),
-    age: joi.number().integer().min(1).max(120).empty("").optional(),
+    age: joi.number().integer().min(1).max(999).empty("").optional(),
     contact: joi
       .string()
       .allow("")
@@ -53,10 +42,11 @@ const updatePharmacistValidationSchema = joi
   .object({
     userName: joi.string().min(3).max(30).optional(),
     email: joi.string().email().optional(),
-    fullName: joi.string().min(3).max(15).optional(),
-    // age: joi.string().min(0).max(120).optional(),
-    // contact: joi.string().min(11).max(20).optional(),
-    age: joi.number().integer().min(1).max(120).empty("").optional(),
+    fullName: joi.string().min(3).max(50).optional(),
+    age: joi.number().integer().min(1).max(999).empty("").optional().messages({
+      "number.base": "Age must be a valid number.",
+      "number.min": "Age must be greater than or equal to 1",
+    }),
     contact: joi
       .string()
       .allow("")
@@ -71,8 +61,8 @@ const updatePharmacistValidationSchema = joi
       .optional(),
     pharmacyBranch: joi.string().min(3).max(15).optional(),
   })
-  .strict()
-  .options({ abortEarly: true });
+  .unknown(false)
+  .options({ abortEarly: false });
 
 const createPrescriptionValidationSchema = joi
   .object({
@@ -117,8 +107,15 @@ const createPharmacyBranchValidationSchema = joi
   .object({
     name: joi.string().min(3).required(),
     address: joi.string().trim().min(3),
-    contactInfo: joi.string().min(5),
-    pharmacists: joi.array().items(joi.string().trim()).min(1).required(),
+    contact: joi.string().min(5),
+    pharmacists: joi
+      .array()
+      .items(joi.string().trim())
+      .min(1)
+      .required()
+      .messages({
+        "string.pharmacists": "must select 1 pharmacist to create new branch",
+      }),
   })
   .strict()
   .options({ abortEarly: false });
@@ -128,15 +125,15 @@ const updatePharmacyBranchValidationSchema = joi
     name: joi.string().min(3).optional(),
     address: joi.string().trim().min(3).optional(),
     contactInfo: joi.string().min(5).optional(),
-    pharmacists: joi.array().items(joi.string()).min(1).optional(),
+    pharmacists: joi.array().items(joi.string().optional()).optional(),
   })
   .strict()
-  .options({ abortEarly: false });
+  .options({ abortEarly: false })
+  .unknown(false);
 
 const validation = (dataObject, validationSchema) => {
   const { error } = validationSchema.validate(dataObject);
   if (error) {
-    // throw new Error(error.details[0].message);
     throw new ValidationError(error.details[0].message, 400);
   }
 };
