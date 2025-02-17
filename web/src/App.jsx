@@ -30,6 +30,7 @@ import { getUserRole } from "./utils/auth";
 import AllBranches from "./components/AllBranches";
 import BranchDetail from "./pages/BranchDetail";
 import TopPharDetails from "./components/pharmacist/TopPharDetails";
+import AllOrders from "./pages/medicineOrder/AllOrders";
 
 function App() {
   const userRole = getUserRole();
@@ -84,6 +85,8 @@ function App() {
               element={<EditPatient />}
             />
             <Route path="/pharmacist/branch" element={<PharmacistBranch />} />
+            <Route path="/pharmacist/orders" element={<AllOrders />} />
+
             {/* Routes of Admin */}
             <Route path="/admin/prescriptions" element={<MyPrescriptions />} />
             <Route

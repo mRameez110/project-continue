@@ -12,6 +12,7 @@ const PrescriptionDetail = () => {
 
   const { id } = useParams();
   const [prescription, setPrescription] = useState(null);
+  const [orderStatus, setOrderStatus] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [updatedData, setUpdatedData] = useState(null);
@@ -34,13 +35,32 @@ const PrescriptionDetail = () => {
         );
 
         console.log(
-          "see prescription response in prescription details.jsx",
-          response
+          "see prescription response in prescription details.jsx ",
+          response.data
         );
+
         setPrescription(response.data.prescription);
         setUpdatedData(response.data.prescription);
-      } catch (err) {
+
+        try {
+          const orderResponse = await axios.get(
+            `${API_BASE_URL}/api/order-medicines/${id}`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+
+          setOrderStatus(
+            orderResponse.data.order
+              ? orderResponse.data.order.orderStatus
+              : null
+          );
+        } catch (orderError) {
+          setOrderStatus(null);
+        }
+      } catch (error) {
         setError("Failed to load prescription details.");
+        showErrorToast(error);
       } finally {
         setLoading(false);
       }
@@ -74,9 +94,8 @@ const PrescriptionDetail = () => {
         }
       );
 
-      console.log("Prescription updated:", response.data);
-      navigate(`/${userRole}/prescriptions`);
       showSuccessToast(response.data.message);
+      navigate(`/${userRole}/prescriptions`);
     } catch (error) {
       console.error("Error updating prescription", error);
       showErrorToast(error);
@@ -105,6 +124,55 @@ const PrescriptionDetail = () => {
     }
   };
 
+  const handleOrder = async () => {
+    try {
+      if (!token) {
+        throw new Error("No authentication token found!");
+      }
+
+      const orderData = {
+        prescriptionId: prescription._id,
+        patientId: prescription.patientId,
+        createdById: prescription.createdById,
+      };
+
+      const response = await axios.post(
+        `${API_BASE_URL}/api/order-medicines`,
+        orderData,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      showSuccessToast(response.data.message);
+      setOrderStatus("pending"); // Set order status to 'pending' after order placement
+    } catch (error) {
+      console.error("Error placing order", error);
+      showErrorToast(error);
+    }
+  };
+
+  const handleCancelOrder = async () => {
+    try {
+      if (!token) {
+        throw new Error("No authentication token found!");
+      }
+
+      const response = await axios.delete(
+        `${API_BASE_URL}/api/order-medicines/${id}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      setOrderStatus(null); // Reset order status after canceling
+      showSuccessToast(response.data.message);
+    } catch (error) {
+      console.error("Error canceling order", error);
+      showErrorToast(error);
+    }
+  };
+
   if (loading) return <p className="text-center mt-10">Loading...</p>;
   if (error) return <p className="text-center text-red-500">{error}</p>;
   if (!prescription)
@@ -113,6 +181,8 @@ const PrescriptionDetail = () => {
   const canEditOrDelete =
     userRole === "admin" ||
     (userRole === "pharmacist" && prescription.createdById === userId);
+
+  const canOrder = userRole === "patient" && !orderStatus; // Disable order button if order exists
 
   return (
     <div className="p-4 sm:p-6 max-w-4xl mx-auto">
@@ -134,6 +204,16 @@ const PrescriptionDetail = () => {
           <strong>Date:</strong>{" "}
           {new Date(prescription.PrescriptionDate).toLocaleDateString()}
         </p>
+
+        {/* Displaying order status in the top right corner */}
+        {orderStatus && (
+          <div className="text-right">
+            <span className="font-semibold text-sm text-gray-600">
+              Order Status: {orderStatus}
+            </span>
+          </div>
+        )}
+
         <h3 className="text-xl font-bold mt-4">Medicines</h3>
         <div className="overflow-x-auto">
           <table className="w-full mt-2 border-collapse border border-gray-300">
@@ -157,67 +237,24 @@ const PrescriptionDetail = () => {
               {prescription.medicine.map((med, index) => (
                 <tr key={index} className="text-center text-sm sm:text-base">
                   <td className="border border-gray-300 px-2 sm:px-4 py-2">
-                    {isEditing ? (
-                      <input
-                        type="text"
-                        value={updatedData.medicine[index]?.medicineName || ""}
-                        onChange={(e) =>
-                          handleInputChange(
-                            index,
-                            "medicineName",
-                            e.target.value
-                          )
-                        }
-                      />
-                    ) : (
-                      med.medicineName
-                    )}
+                    {med.medicineName}
                   </td>
                   <td className="border border-gray-300 px-2 sm:px-4 py-2">
-                    {isEditing ? (
-                      <input
-                        type="text"
-                        value={updatedData.medicine[index]?.dosage || ""}
-                        onChange={(e) =>
-                          handleInputChange(index, "dosage", e.target.value)
-                        }
-                      />
-                    ) : (
-                      med.dosage
-                    )}
-                  </td>
-
-                  <td className="border border-gray-300 px-2 sm:px-4 py-2">
-                    {isEditing ? (
-                      <input
-                        type="text"
-                        value={updatedData.medicine[index]?.frequency || ""}
-                        onChange={(e) =>
-                          handleInputChange(index, "frequency", e.target.value)
-                        }
-                      />
-                    ) : (
-                      med.frequency
-                    )}
+                    {med.dosage}
                   </td>
                   <td className="border border-gray-300 px-2 sm:px-4 py-2">
-                    {isEditing ? (
-                      <input
-                        type="text"
-                        value={updatedData.medicine[index]?.duration || ""}
-                        onChange={(e) =>
-                          handleInputChange(index, "duration", e.target.value)
-                        }
-                      />
-                    ) : (
-                      med.duration
-                    )}
+                    {med.frequency}
+                  </td>
+                  <td className="border border-gray-300 px-2 sm:px-4 py-2">
+                    {med.duration}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
+
+        {/* Conditional Buttons */}
         {canEditOrDelete && (
           <div className="mt-4 flex justify-end space-x-2">
             <button
@@ -239,6 +276,30 @@ const PrescriptionDetail = () => {
               className="bg-red-500 text-white px-3 py-1 rounded"
             >
               Delete
+            </button>
+          </div>
+        )}
+
+        {/* Order Prescription Button */}
+        {canOrder && (
+          <div className="mt-4 flex justify-end">
+            <button
+              onClick={handleOrder}
+              className="bg-blue-500 text-white px-3 py-1 rounded"
+            >
+              Order Prescription
+            </button>
+          </div>
+        )}
+
+        {/* Cancel Order Button if order is pending */}
+        {orderStatus === "pending" && (
+          <div className="mt-4 flex justify-end">
+            <button
+              onClick={handleCancelOrder}
+              className="bg-red-500 text-white px-3 py-1 rounded"
+            >
+              Cancel Order
             </button>
           </div>
         )}

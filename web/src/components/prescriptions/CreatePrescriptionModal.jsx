@@ -17,6 +17,7 @@ const CreatePrescriptionModal = ({ onClose, patientId }) => {
     { medicineName: "", dosage: "", frequency: "", duration: "" },
   ]);
   const [loading, setLoading] = useState(false);
+  console.log("check is patient id? ", patientId);
 
   useEffect(() => {
     const fetchPatients = async () => {
@@ -58,8 +59,13 @@ const CreatePrescriptionModal = ({ onClose, patientId }) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const token = localStorage.getItem("token");
+      if (!selectedPatient || selectedPatient === "") {
+        showErrorToast("Please select a patient!");
+        setLoading(false);
+        return;
+      }
 
+      const token = localStorage.getItem("token");
       if (!token) {
         throw new Error("No authentication token found!");
       }
@@ -70,10 +76,15 @@ const CreatePrescriptionModal = ({ onClose, patientId }) => {
         return;
       }
 
+      console.log("Submitting prescription:", {
+        patientId: selectedPatient || null,
+        medicine,
+      });
+
       const response = await axios.post(
         `${API_BASE_URL}/api/prescriptions`,
         {
-          patientId: selectedPatient || null,
+          patientId: selectedPatient, // Send valid patient ID
           medicine,
         },
         {

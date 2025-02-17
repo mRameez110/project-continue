@@ -27,6 +27,7 @@ const MyPrescriptions = () => {
             Authorization: `Bearer ${token}`,
           },
         });
+        console.log("see response in my prescriptions.jsx ", response.data);
 
         setPrescriptions(response.data.prescriptions);
       } catch (err) {

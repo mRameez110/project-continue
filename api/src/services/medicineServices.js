@@ -7,9 +7,61 @@ const {
 
 const getAllPatientsService = async () => {
   const patients = await patientModel.find().populate("user");
+
+  // if (patients.length == 0) throw new NotFoundError("No patient found", 200);
+
   console.log("see patiens ", patients);
   return patients;
 };
+
+// const getPatientService = async (dataObject) => {
+//   const userId = dataObject.params.id;
+//   // const findedPatient = await patientModel;
+//   // .findOne({ user: userId })
+
+//   const findedPatient = await patientModel
+//     .findOne({
+//       $or: [{ user: userId }, { _id: userId }],
+//     })
+//     .populate("user", ["userName", "email", "role"]);
+
+//   if (!findedPatient) throw new NotFoundError("No patient found", 404);
+
+//   console.log("see get patient by id ", findedPatient);
+
+//   return findedPatient;
+// };
+
+// const updatePatientService = async (dataObject) => {
+//   const { loggedInUserId, loggedInUserRole, targetUserId } =
+//     dataObject.accessControl;
+
+//   const userIdToUpdate = targetUserId || loggedInUserId;
+
+//   if (dataObject.body.userName || dataObject.body.email) {
+//     console.log(
+//       "see user model fields ",
+//       dataObject.body.userName,
+//       dataObject.body.email
+//     );
+//     const updatedUser = await userModel.findByIdAndUpdate(userIdToUpdate);
+//     if (!updatedUser) {
+//       throw new NotFoundError("User not found", 404);
+//     }
+//   }
+
+//   const updatedPatient = await patientModel
+//     .findOneAndUpdate({
+//       user: userIdToUpdate,
+//     })
+//     .populate("user", "userName email role");
+
+//   if (!updatedPatient) {
+//     throw new NotFoundError("Patient not found", 404);
+//   }
+
+//   return updatedPatient;
+// };
 
 const getPatientService = async (req) => {
   const userId = req.params.id;

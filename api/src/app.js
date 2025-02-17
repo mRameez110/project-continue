@@ -10,6 +10,7 @@ const patientRoutes = require("./routes/patientRoutes");
 const pharmacistRoutes = require("./routes/pharmacistRoutes");
 const prescriptionRoutes = require("./routes/prescriptionRoutes");
 const pharmacyBranchRoutes = require("./routes/pharmacyBranchRoutes");
+const medicineOrderRoutes = require("./routes/medicineOrderRoutes");
 
 const errorHandler = require("./middlewares/errorHandler");
 
@@ -26,6 +27,7 @@ app.use("/api/patients", patientRoutes);
 app.use("/api/pharmacists", pharmacistRoutes);
 app.use("/api/prescriptions", prescriptionRoutes);
 app.use("/api/pharmacy-branches", pharmacyBranchRoutes);
+app.use("/api/order-medicines", medicineOrderRoutes);
 
 app.use("*", (req, res) => {
   res.status(404).json({
