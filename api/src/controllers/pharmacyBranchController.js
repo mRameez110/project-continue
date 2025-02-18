@@ -14,6 +14,7 @@ const {
 
 const createPharmacyBranch = async (req, res, next) => {
   try {
+    console.log("check creat branch api request body ", req.body);
     validation(req.body, createPharmacyBranchValidationSchema);
     console.log("see created request in create ");
     const pharmacyBranch = await createPharmacyBranchService(req);
@@ -51,25 +52,10 @@ const getPharmacyBranchById = async (req, res, next) => {
   }
 };
 
-// const updatePharmacyBranch = async (req, res, next) => {
-//   try {
-
-//     validation(req.body, updatePharmacyBranchValidationSchema);
-//     const updatedBranch = await updatePharmacyBranchService(req);
-//     res
-//       .status(200)
-//       .json({ message: "Pharmacy Branch updated successfully", updatedBranch });
-//   } catch (err) {
-//     next(err);
-//   }
-// };
-
 const updatePharmacyBranch = async (req, res, next) => {
   try {
-    // Validation of request body
     validation(req.body, updatePharmacyBranchValidationSchema);
 
-    // Update the pharmacy branch details
     const updatedBranch = await updatePharmacyBranchService(req);
 
     res.status(200).json({

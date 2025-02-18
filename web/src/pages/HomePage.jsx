@@ -7,10 +7,12 @@ const HomePage = () => {
         id="home"
         className="h-screen bg-green-400 flex flex-col justify-center items-center text-white px-4"
       >
-        <h1 className="text-5xl font-extrabold mb-6">Welcome to OPMS</h1>
+        <h1 className="text-5xl font-extrabold mb-6">
+          Welcome to Smart Health
+        </h1>
         <p className="text-xl mb-8 max-w-2xl text-center">
-          OPMS (Online Pharmacy Management System) is your trusted platform to
-          manage pharmacy services and customer care.
+          Smart Health is an OPMS (Online Pharmacy Management System) is your
+          trusted platform to manage pharmacy services and customer care.
         </p>
         <div className="space-x-4">
           <Link

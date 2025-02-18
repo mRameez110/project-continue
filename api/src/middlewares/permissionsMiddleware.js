@@ -24,10 +24,6 @@ const checkPermission = (...allowedRoles) => {
       );
     }
 
-    // if (loggedInUserRole === "patient" && loggedInUserId !== targetUserId) {
-    //   throw new ForbiddenError("Patients can only update their own data", 403);
-    // }
-
     if (
       loggedInUserRole === "patient" &&
       ["/patients"].some((route) => req.originalUrl.includes(route)) &&
@@ -37,7 +33,6 @@ const checkPermission = (...allowedRoles) => {
       throw new ForbiddenError("Patients can only update their own data", 403);
     }
 
-    // ✅ Allow pharmacists to update/delete their own account
     if (
       loggedInUserRole === "pharmacist" &&
       ["/pharmacists", "/branches"].some((route) =>
@@ -45,17 +40,11 @@ const checkPermission = (...allowedRoles) => {
       ) &&
       loggedInUserId !== targetUserId
     ) {
-      // throw new ForbiddenError(
-      //   "Pharmacists cannot manage other pharmacists or branches",
-      //   403
-      // );
       throw new ForbiddenError(
         "You are not authorized for this request action",
         403
       );
     }
-
-    console.log("✅ Role Check Passed - Continuing Execution");
 
     req.accessControl = {
       loggedInUserId,

@@ -10,14 +10,11 @@ const PatientDashboard = () => {
         </h2>
       </div>
 
-      {/* Top Pharmacists Section */}
       <div className="mb-6">
-        <h3 className="text-xl font-medium mb-4">Top Pharmacists</h3>
+        <h3 className="text-xl font-medium mb-4">Top Doctors</h3>
 
-        {/* Cards Grid Layout */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-          {dummyData.pharmacists.slice(0, 5).map((pharmacist) => (
-            // Passing the whole 'pharmacist' object to the CustomCard
+          {dummyData.pharmacists.slice(0, 6).map((pharmacist) => (
             <CustomCard key={pharmacist.id} pharmacist={pharmacist} />
           ))}
         </div>

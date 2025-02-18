@@ -84,7 +84,7 @@ const CreatePrescriptionModal = ({ onClose, patientId }) => {
       const response = await axios.post(
         `${API_BASE_URL}/api/prescriptions`,
         {
-          patientId: selectedPatient, // Send valid patient ID
+          patientId: selectedPatient,
           medicine,
         },
         {

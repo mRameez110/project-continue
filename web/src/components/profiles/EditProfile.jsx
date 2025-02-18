@@ -78,6 +78,7 @@ const EditProfile = () => {
       <h2 className="text-2xl font-bold mb-4">Edit Profile</h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
+        <label className="block text-gray-700 font-medium">Name </label>
         <input
           type="text"
           name="fullName"
@@ -87,6 +88,8 @@ const EditProfile = () => {
           className="w-full p-2 border rounded"
         />
 
+        <label className="block text-gray-700 font-medium">Age </label>
+
         <input
           type="text"
           name="age"
@@ -95,6 +98,8 @@ const EditProfile = () => {
           placeholder="Age"
           className="w-full p-2 border rounded"
         />
+
+        <label className="block text-gray-700 font-medium">Contact </label>
 
         <input
           type="text"

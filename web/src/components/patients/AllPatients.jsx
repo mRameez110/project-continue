@@ -31,9 +31,10 @@ const AllPatients = () => {
         console.log("see response in all patient.jsx ", response);
 
         setPatients(response.data.patients);
-      } catch (err) {
-        console.log("Error fetching patients:", err);
+      } catch (error) {
+        console.log("Error fetching patients:", error);
         setError("Failed to load patients. Please check authentication.");
+        showErrorToast(error)
       } finally {
         setLoading(false);
       }

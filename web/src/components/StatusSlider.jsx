@@ -1,24 +1,38 @@
-import React, { useState } from "react";
+import React from "react";
 
-const StatusSlider = ({ orderId, currentStatus, onStatusChange }) => {
-  const [status, setStatus] = useState(currentStatus || "pending");
+const StatusSlider = ({
+  orderId,
+  currentStatus,
+  onStatusChange,
+  isStatusEditable,
+}) => {
+  const statuses = ["pending", "dispatched", "delivered"];
 
-  const handleStatusChange = (e) => {
-    const newStatus = e.target.value;
-    setStatus(newStatus);
-    onStatusChange(orderId, newStatus);
+  const handleChange = (e) => {
+    if (isStatusEditable) {
+      const newStatus = e.target.value;
+      onStatusChange(orderId, newStatus);
+    }
   };
 
   return (
     <select
-      value={status}
-      onChange={handleStatusChange}
-      className="py-1 px-4 bg-white border border-gray-300 rounded"
+      value={currentStatus}
+      onChange={handleChange}
+      disabled={!isStatusEditable}
+      className="py-2 px-4 border rounded"
     >
-      <option value="pending">Pending</option>
-      <option value="dispatched">Dispatched</option>
-      <option value="delivered">Delivered</option>
-      <option value="received">Received</option>
+      {currentStatus === "received" ? (
+        <option value="received" disabled>
+          Received
+        </option>
+      ) : (
+        statuses.map((status) => (
+          <option key={status} value={status}>
+            {status.charAt(0).toUpperCase() + status.slice(1)}
+          </option>
+        ))
+      )}
     </select>
   );
 };

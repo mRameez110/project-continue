@@ -17,7 +17,6 @@ import PrescriptionDetail from "./components/prescriptions/PrescriptionDetail";
 import NotFound from "./components/NotFound";
 import Profile from "./components/profiles/Profile";
 import EditProfile from "./components/profiles/EditProfile";
-import PharmacistProfile from "./components/profiles/PharmacistProfile";
 import AllPatients from "./components/patients/AllPatients";
 import PatientDetail from "./components/patients/PatientDetail";
 import EditPatient from "./components/patients/EditPatient";
@@ -31,6 +30,7 @@ import AllBranches from "./components/AllBranches";
 import BranchDetail from "./pages/BranchDetail";
 import TopPharDetails from "./components/pharmacist/TopPharDetails";
 import AllOrders from "./pages/medicineOrder/AllOrders";
+import InvantoriesPage from "./pages/InaventoriesPage";
 
 function App() {
   const userRole = getUserRole();
@@ -77,7 +77,7 @@ function App() {
               element={<PrescriptionDetail />}
             />
             <Route path="/pharmacist/patients" element={<AllPatients />} />
-            {/* <Route path="/pharmacist-profile" element={<PharmacistProfile />} /> */}
+
             <Route path="/pharmacist-profile" element={<Profile />} />
             <Route path="pharmacist/patient/:id" element={<PatientDetail />} />
             <Route
@@ -86,6 +86,7 @@ function App() {
             />
             <Route path="/pharmacist/branch" element={<PharmacistBranch />} />
             <Route path="/pharmacist/orders" element={<AllOrders />} />
+            <Route path="/pharmacist/inventory" element={<InvantoriesPage />} />
 
             {/* Routes of Admin */}
             <Route path="/admin/prescriptions" element={<MyPrescriptions />} />

@@ -34,7 +34,6 @@ const EditPatient = () => {
 
         console.log("see response in edit patient.jsx ", response);
 
-        // const { fullName, age, contact } = response.data;
         const { fullName, age, contact } = response.data.user;
         setFullName(fullName || "N/A");
         setAge(age || "N/A");

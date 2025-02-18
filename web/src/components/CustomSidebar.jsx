@@ -1,6 +1,5 @@
 import { NavLink } from "react-router-dom";
 
-// Custom Sidebar Component
 const CustomSidebar = ({ role, sidebarOptions }) => {
   return (
     <div className="flex flex-col w-64 bg-gray-800 text-white p-4 h-full fixed top-0 left-0">

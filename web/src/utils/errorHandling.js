@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 export const showErrorToast = (error) => {
   const message = error?.response?.data?.message || "Something went wrong!";
   toast.error(message, {
-    autoClose: false,
+    autoClose: 4000,
     closeOnClick: true,
   });
 };

@@ -5,7 +5,7 @@ import { getToken, getUserRole } from "../utils/auth";
 import CreateBranchModal from "../components/CreateBranchModel";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-const AllBranches = () => {
+const InvantoriesPage = () => {
   const [branches, setBranches] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isBranchModalOpen, setIsBranchModalOpen] = useState(false);
@@ -48,7 +48,7 @@ const AllBranches = () => {
       return (
         <tr>
           <td colSpan="5" className="text-center p-4">
-            No branches found.
+            Comming Soon .......
           </td>
         </tr>
       );
@@ -89,7 +89,7 @@ const AllBranches = () => {
   return (
     <div className="container mx-auto p-6 bg-white rounded-lg shadow-lg mt-6">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-800">
+        <h1 className="text-3xl font-semibold text-center">
           All Pharmacy Branches
         </h1>
 
@@ -111,7 +111,7 @@ const AllBranches = () => {
       )}
 
       <table className="min-w-full table-auto">
-        <thead className="bg-blue-600 text-white">
+        <thead className="bg-green-500 text-white">
           <tr>
             <th className="py-3 px-4">#</th>
             <th className="py-3 px-4">Name</th>
@@ -126,4 +126,4 @@ const AllBranches = () => {
   );
 };
 
-export default AllBranches;
+export default InvantoriesPage;

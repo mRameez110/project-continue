@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { login } from "../utils/auth";
 import { showErrorToast, showSuccessToast } from "../utils/errorHandling";
 
@@ -32,37 +32,55 @@ const Login = () => {
   };
 
   return (
-    <form
-      onSubmit={handleLogin}
-      className="max-w-md mx-auto bg-white p-6 rounded shadow-md"
-      autoComplete="on"
-    >
-      <h2 className="text-xl font-bold mb-4">Login</h2>
-      <input
-        type="email"
-        placeholder="Email"
-        className="w-full p-2 border rounded mb-2"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-        autoComplete="email"
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        className="w-full p-2 border rounded mb-2"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-        autoComplete="current-password"
-      />
-      <button
-        type="submit"
-        className="bg-blue-500 text-white px-4 py-2 rounded w-full"
+    <div className="mt-20">
+      <form
+        onSubmit={handleLogin}
+        className="max-w-md mx-auto bg-white p-6 rounded shadow-md"
+        autoComplete="on"
       >
-        Login
-      </button>
-    </form>
+        <h2 className="flex items-center justify-center text-2xl font-bold mb-8">
+          Login to your account
+        </h2>
+
+        <label className="block text-gray-700 font-medium my-2">Email</label>
+        <input
+          type="email"
+          placeholder="email@gmail.com"
+          className="w-full p-2 border rounded mb-2"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          autoComplete="email"
+        />
+        <label className="block text-gray-700 font-medium my-2">Password</label>
+        <input
+          type="password"
+          placeholder="Password"
+          className="w-full p-2 border rounded mb-2"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          autoComplete="current-password"
+        />
+        <button
+          type="submit"
+          className="bg-green-500 mt-4 text-white px-4 py-2 rounded w-full"
+        >
+          LOGIN
+        </button>
+
+        <p className="mt-10 text-center text-sm/6 text-gray-500">
+          Don't have account?{" "}
+          <Link
+            to="/signup"
+            href="#"
+            className="font-semibold text-indigo-600 hover:text-indigo-950"
+          >
+            create here
+          </Link>
+        </p>
+      </form>
+    </div>
   );
 };
 

@@ -19,7 +19,8 @@ const getPharmacistByIdService = async (req) => {
     .findOne({
       $or: [{ user: userId }, { _id: userId }],
     })
-    .populate("user", ["userName", "email", "role"]);
+    .populate("user", ["userName", "email", "role"])
+    .populate("pharmacyBranch", "name");
 
   if (!findedPharmacist) throw new NotFoundError("No pharmacist found", 404);
 

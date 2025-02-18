@@ -31,7 +31,6 @@ const CreateBranchModal = ({ onClose }) => {
         });
         console.log("Fetched pharmacists: ", response);
 
-        // Filter pharmacists who don't have a branch assigned
         const pharmacistsWithoutBranch = response.data.pharmacists.filter(
           (pharmacist) => !pharmacist.pharmacyBranch
         );

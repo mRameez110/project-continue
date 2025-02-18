@@ -10,9 +10,8 @@ const PharmacistBranch = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const loggedUserId = getUserId(); // Get logged-in pharmacist ID
-  const token = getToken(); // Get the token to send in headers
-
+  const loggedUserId = getUserId();
+  const token = getToken();
   useEffect(() => {
     const fetchBranch = async () => {
       console.log("Branch API Response:");
@@ -25,7 +24,7 @@ const PharmacistBranch = () => {
           `${API_BASE_URL}/api/pharmacy-branches/${loggedUserId}`,
           {
             headers: {
-              Authorization: `Bearer ${token}`, // Sending the token
+              Authorization: `Bearer ${token}`,
             },
           }
         );
@@ -50,9 +49,8 @@ const PharmacistBranch = () => {
   if (loading) return <p className="text-gray-600">Loading...</p>;
   if (error) return <p className="text-red-500">{error}</p>;
 
-  // Check if branch data exists and handle missing values
   const getBranchFieldValue = (field) => {
-    return field && field !== "" ? field : "N/A"; // If value is missing or empty, return N/A
+    return field && field !== "" ? field : "N/A";
   };
 
   return (

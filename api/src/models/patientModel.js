@@ -5,7 +5,7 @@ const patientSchema = new mongoose.Schema({
   age: { type: Number },
   contact: {
     type: String,
-    match: /^[0-9]+$/,
+    match: /^[0-9\s\-\(\)]*$/,
     minlength: 10,
     maxlength: 15,
   },

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { data, useNavigate } from "react-router-dom";
+import { data, Link, useNavigate } from "react-router-dom";
 import { signup } from "../utils/auth";
 import { showErrorToast, showSuccessToast } from "../utils/errorHandling";
 
@@ -24,52 +24,63 @@ const Signup = () => {
   };
 
   return (
-    <form
-      onSubmit={handleSignup}
-      className="max-w-md mx-auto bg-white p-6 rounded shadow-md"
-    >
-      <h2 className="text-xl font-bold mb-4">Signup</h2>
-      <input
-        type="text"
-        placeholder="Name"
-        className="w-full p-2 border rounded mb-2"
-        value={userName}
-        onChange={(e) => setUserName(e.target.value)}
-        required
-      />
-      <input
-        type="email"
-        placeholder="Email"
-        className="w-full p-2 border rounded mb-2"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        className="w-full p-2 border rounded mb-2"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
-      <select
-        className="w-full p-2 border rounded mb-2"
-        value={role}
-        onChange={(e) => setRole(e.target.value)}
-        required
+    <div className="mt-20">
+      <form
+        className="max-w-md mx-auto bg-white p-6 rounded shadow-md"
+        onSubmit={handleSignup}
       >
-        <option value="patient">Patient</option>
-        <option value="pharmacist">Pharmacist</option>
-        {/* <option value="admin">Admin</option> */}
-      </select>
-      <button
-        type="submit"
-        className="bg-green-500 text-white px-4 py-2 rounded w-full"
-      >
-        Signup
-      </button>
-    </form>
+        <h2 className="text-xl font-bold mb-4">Create an account</h2>
+        <input
+          type="text"
+          placeholder="Name"
+          className="w-full p-2 border rounded mb-2"
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
+          required
+        />
+        <input
+          type="email"
+          placeholder="Email"
+          className="w-full p-2 border rounded mb-2"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          className="w-full p-2 border rounded mb-2"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <select
+          className="w-full p-2 border rounded mb-2"
+          value={role}
+          onChange={(e) => setRole(e.target.value)}
+          required
+        >
+          <option value="patient">Patient</option>
+          <option value="pharmacist">Pharmacist</option>
+        </select>
+        <button
+          type="submit"
+          className="bg-green-500 mt-4 text-white px-4 py-2 rounded w-full"
+        >
+          REIGSTER
+        </button>
+        <p className="mt-2 text-center text-sm/6 text-gray-500">
+          Already have account?{" "}
+          <Link
+            to="/login"
+            href="#"
+            className="font-semibold text-indigo-600 hover:text-indigo-950"
+          >
+            Login here
+          </Link>
+        </p>
+      </form>
+    </div>
   );
 };
 

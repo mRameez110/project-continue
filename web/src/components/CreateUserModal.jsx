@@ -6,7 +6,7 @@ import { getUserRole } from "../utils/auth";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-const CreateUserModal = ({ isOpen, onClose, userRole }) => {
+const CreateUserModal = ({ onClose, userRole }) => {
   const logedUserRole = getUserRole();
   const navigate = useNavigate();
 
@@ -40,7 +40,6 @@ const CreateUserModal = ({ isOpen, onClose, userRole }) => {
       if (formData.fullName) userPayload.fullName = formData.fullName;
       if (formData.age) userPayload.age = formData.age;
       if (formData.contact) userPayload.contact = formData.contact;
-      
 
       const response = await axios.post(
         `${API_BASE_URL}/api/auth/register`,
@@ -64,8 +63,6 @@ const CreateUserModal = ({ isOpen, onClose, userRole }) => {
       showErrorToast(error);
     }
   };
-
-  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
@@ -108,7 +105,6 @@ const CreateUserModal = ({ isOpen, onClose, userRole }) => {
             />
           </div>
 
-          {/* Role Dropdown (Only for Admin) */}
           {userRole === "admin" && (
             <div className="mb-4">
               <label className="block text-gray-700">Role</label>

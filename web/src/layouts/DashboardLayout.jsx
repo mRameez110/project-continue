@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import { getUserRole, getUserName, logout } from "../utils/auth";
 import { NavLink, useNavigate, Outlet, useLocation } from "react-router-dom";
 import BackButton from "../components/CustomBackButton";
-import CustomSidebar from "../components/CustomSidebar"; // Import the custom sidebar component
+import CustomSidebar from "../components/CustomSidebar";
 
 const DashboardLayout = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [greeting, setGreeting] = useState("");
-  const role = getUserRole(); // Get the user's role
-  const userName = getUserName(); // Get the user's name
+  const role = getUserRole();
+  const userName = getUserName();
   console.log("Current role in Dashboard Layout:", role);
 
   useEffect(() => {
@@ -19,7 +19,6 @@ const DashboardLayout = () => {
     else setGreeting("Good Evening");
   }, []);
 
-  // Sidebar menu options for different roles
   const sidebarOptions = {
     admin: [
       { name: "Dashboard", path: "/admin-dashboard" },
@@ -47,14 +46,9 @@ const DashboardLayout = () => {
 
   return (
     <div className="flex h-screen">
-      {/* Use CustomSidebar component here */}
       <CustomSidebar role={role} sidebarOptions={sidebarOptions} />{" "}
-      {/* Pass role and sidebar options to CustomSidebar */}
-      {/* Main Content Area */}
       <main className="flex-1 p-6 bg-gray-100 ml-64">
         {" "}
-        {/* ml-64 to leave space for the sidebar */}
-        {/* Top Bar with greeting and logout */}
         <div className="flex justify-between items-center bg-white p-4 shadow-md">
           <h1 className="text-lg font-semibold">
             {greeting}, {userName}!
@@ -80,9 +74,8 @@ const DashboardLayout = () => {
             </button>
           </div>
         </div>
-        {/* Outlet for nested routes */}
         <div className="mt-4">
-          <Outlet /> {/* Content specific to each dashboard */}
+          <Outlet />
           {!location.pathname.includes("dashboard") && <BackButton />}
         </div>
       </main>

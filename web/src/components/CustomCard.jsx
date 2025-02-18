@@ -1,20 +1,18 @@
 import { Link } from "react-router-dom";
 
-// CustomCard now expects 'pharmacist' as a prop
 const CustomCard = ({ pharmacist }) => {
   return (
-    <div className="max-w-xl bg-white border border-gray-200 rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105">
+    <div className="max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-xl mx-auto p-4 bg-white border  break-all border-gray-200 rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105">
       <Link to={`/topphardetails/${pharmacist.id}`}>
-        {/* Profile Image */}
         <img
-          className="rounded-t-lg w-full h-64 object-cover"
-          src="https://images.pexels.com/photos/2324837/pexels-photo-2324837.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" // Replace with dynamic image if available
+          className="rounded-t-lg w-full object-cover h-48 md:h-56 lg:h-64"
+          src={pharmacist.image}
           alt={pharmacist.name}
         />
       </Link>
-      <div className="p-6 space-y-4">
+      <div className="p-5 space-y-3">
         <Link to={`/topphardetails/${pharmacist.id}`}>
-          <h5 className="text-3xl font-semibold text-gray-900 dark:text-white hover:text-blue-600 transition duration-200">
+          <h5 className="text-xl font-semibold text-gray-900 dark:text-white hover:text-blue-600 transition duration-200">
             {pharmacist.name}
           </h5>
         </Link>
@@ -26,7 +24,7 @@ const CustomCard = ({ pharmacist }) => {
           <strong className="font-bold text-gray-800">Phone:</strong>{" "}
           {pharmacist.phone}
         </p>
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center mt-4">
           <Link
             to={`/topphardetails/${pharmacist.id}`}
             className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 transition duration-200"

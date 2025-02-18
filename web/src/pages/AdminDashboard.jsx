@@ -4,7 +4,7 @@ import CreatePrescriptionModal from "../components/prescriptions/CreatePrescript
 import CreateBranchModal from "../components/CreateBranchModel";
 
 const AdminDashboard = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [isPrescriptionModalOpen, setIsPrescriptionModalOpen] = useState(false);
   const [isBranchModalOpen, setIsBranchModalOpen] = useState(false);
 
@@ -14,28 +14,23 @@ const AdminDashboard = () => {
 
       <div className="flex justify-end mb-4">
         <button
-          onClick={() => setIsModalOpen(true)}
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-        >
+          onClick={() => setIsUserModalOpen(true)}
+          className="bg-blue-500 text-white px-4 py-2 rounded">
           Create User
         </button>
       </div>
 
-      {/* User creation Modal */}
-      {isModalOpen && (
+      {isUserModalOpen && (
         <CreateUserModal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
+          onClose={() => setIsUserModalOpen(false)}
           userRole="admin"
         />
       )}
 
-      {/* Prescription Creation Modal */}
       <div className="flex justify-end mb-4">
         <button
           onClick={() => setIsPrescriptionModalOpen(true)}
-          className="bg-green-500 text-white px-4 py-2 rounded"
-        >
+          className="bg-green-500 text-white px-4 py-2 rounded">
           Create Prescription
         </button>
       </div>
@@ -47,21 +42,16 @@ const AdminDashboard = () => {
         />
       )}
 
-      {/* Branch Creation Modal */}
       <div className="flex justify-end mb-4">
         <button
           onClick={() => setIsBranchModalOpen(true)}
-          className="bg-purple-500 text-white px-4 py-2 rounded"
-        >
+          className="bg-purple-500 text-white px-4 py-2 rounded">
           Create Branch
         </button>
       </div>
 
       {isBranchModalOpen && (
-        <CreateBranchModal
-          isOpen={isBranchModalOpen}
-          onClose={() => setIsBranchModalOpen(false)}
-        />
+        <CreateBranchModal onClose={() => setIsBranchModalOpen(false)} />
       )}
     </div>
   );

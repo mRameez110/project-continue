@@ -1,4 +1,3 @@
-// src/data/dummyData.js
 export const dummyData = {
   pharmacists: [
     {
@@ -12,7 +11,9 @@ export const dummyData = {
       address: "123 Main Street, City",
       experience: "15 years",
       education: "PhD in Pharmacy",
-      link: "/profile/1", // URL link to profile page
+      link: "/profile/1",
+      image:
+        "https://images.pexels.com/photos/2324837/pexels-photo-2324837.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     },
     {
       id: 2,
@@ -25,7 +26,9 @@ export const dummyData = {
       address: "456 Elm Street, City",
       experience: "10 years",
       education: "MPharm",
-      link: "/profile/2", // URL link to profile page
+      link: "/profile/2",
+      image:
+        "https://images.pexels.com/photos/4167541/pexels-photo-4167541.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     },
     {
       id: 3,
@@ -38,7 +41,9 @@ export const dummyData = {
       address: "789 Pine Street, City",
       experience: "20 years",
       education: "MSc in Pharmacy",
-      link: "/profile/3", // URL link to profile page
+      link: "/profile/3",
+      image:
+        "https://images.pexels.com/photos/3259629/pexels-photo-3259629.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     },
     {
       id: 4,
@@ -51,7 +56,9 @@ export const dummyData = {
       address: "789 Pine Street, City",
       experience: "20 years",
       education: "MSc in Pharmacy",
-      link: "/profile/3", // URL link to profile page
+      link: "/profile/3",
+      image:
+        "https://images.pexels.com/photos/5327585/pexels-photo-5327585.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     },
     {
       id: 5,
@@ -64,8 +71,24 @@ export const dummyData = {
       address: "789 Pine Street, City",
       experience: "20 years",
       education: "MSc in Pharmacy",
-      link: "/profile/3", // URL link to profile page
+      link: "/profile/3",
+      image:
+        "https://images.pexels.com/photos/5452268/pexels-photo-5452268.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     },
-    // Add more pharmacists as needed
+    {
+      id: 6,
+      name: "Dr. Alice Brown",
+      title: "Top Pharmacist",
+      email: "alice.brown@example.com",
+      phone: "0300-3333333",
+      age: 50,
+      pharmacyBranch: { name: "Pharmacy C" },
+      address: "789 Pine Street, City",
+      experience: "20 years",
+      education: "MSc in Pharmacy",
+      link: "/profile/3",
+      image:
+        "https://images.pexels.com/photos/5452293/pexels-photo-5452293.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    },
   ],
 };

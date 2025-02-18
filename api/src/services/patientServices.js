@@ -18,7 +18,6 @@ const getPatientService = async (req) => {
 
   const findedPatient = await patientModel
     .findOne({
-      // $or: [{ user: userId }, { _id: userId }, { user: logedUserId }],
       $or: [{ user: userId }, { _id: userId }],
     })
     .populate("user", ["userName", "email", "role"]);
@@ -29,84 +28,6 @@ const getPatientService = async (req) => {
 
   return findedPatient;
 };
-
-// const updatePatientService = async (req) => {
-//   const { loggedInUserId, loggedInUserRole, targetUserId } = req.accessControl;
-//   const userIdToUpdate = targetUserId || loggedInUserId;
-//   const userId = req.params.id;
-//   console.log("see updated patient req ", req.body);
-
-//   // if (req.body.userName || req.body.email) {
-//   //   console.log("Updating User Model: ", req.body.userName, req.body.email);
-
-//   //   const updatedUser = await userModel.findByIdAndUpdate(
-//   //     userIdToUpdate,
-//   //     { userName: req.body.userName, email: req.body.email },
-//   //     { new: true }
-//   //   );
-
-//   //   if (!updatedUser) {
-//   //     throw new NotFoundError("User not found", 404);
-//   //   }
-//   // }
-
-//   await patientModel.findOneAndUpdate({ user: userIdToUpdate }, req.body, {
-//     new: true,
-//     runValidators: true,
-//   });
-
-//   const updatedPatient = await patientModel
-//     .findOne({ $or: [{ user: userId }, { _id: userId }] })
-//     .populate("user", "userName email role")
-//     .lean();
-
-//   console.log("see updated patient ", updatedPatient);
-
-//   if (!updatedPatient) {
-//     throw new NotFoundError("Patient not found", 404);
-//   }
-
-//   return updatedPatient;
-// };
-
-// const updatePatientService = async (req) => {
-//   const { loggedInUserId, loggedInUserRole, targetUserId } = req.accessControl;
-//   const userIdToUpdate = targetUserId || loggedInUserId;
-//   const userId = req.params.id;
-//   console.log("see updated patient req ", req.body);
-
-//   // if (req.body.userName || req.body.email) {
-//   //   console.log("Updating User Model: ", req.body.userName, req.body.email);
-
-//   //   const updatedUser = await userModel.findByIdAndUpdate(
-//   //     userIdToUpdate,
-//   //     { userName: req.body.userName, email: req.body.email },
-//   //     { new: true }
-//   //   );
-
-//   //   if (!updatedUser) {
-//   //     throw new NotFoundError("User not found", 404);
-//   //   }
-//   // }
-
-//   await patientModel.findOneAndUpdate({ user: userIdToUpdate }, req.body, {
-//     new: true,
-//     runValidators: true,
-//   });
-
-//   const updatedPatient = await patientModel
-//     .findOne({ $or: [{ user: userId }, { _id: userId }] })
-//     .populate("user", "userName email role")
-//     .lean();
-
-//   console.log("see updated patient ", updatedPatient);
-
-//   if (!updatedPatient) {
-//     throw new NotFoundError("Patient not found", 404);
-//   }
-
-//   return updatedPatient;
-// };
 
 const updatePatientService = async (req) => {
   const { loggedInUserId, loggedInUserRole, targetUserId } = req.accessControl;
@@ -144,7 +65,7 @@ const updatePatientService = async (req) => {
 
 const deletePatientService = async (req) => {
   const { loggedInUserId, loggedInUserRole, targetUserId } = req.accessControl;
-  // const userIdToDelete = targetUserId || loggedInUserId;
+
   const patientId = req.params.id;
   console.log("see patient id to delete in delete patient service", patientId);
 

@@ -19,7 +19,7 @@ const medicineOrder = new mongoose.Schema({
 
   orderStatus: {
     type: String,
-    enum: ["pending", "dispatched", "delivered", "received"],
+    enum: ["pending", "dispatched", "delivered", "not-received", "received"],
     default: "pending",
   },
 

@@ -99,8 +99,8 @@ const createMedicineOrder = async (req, res, next) => {
 const getMedicineOrderById = async (req, res, next) => {
   try {
     console.log("check get medicine order by id api request", req.params);
-    const { id } = req.params; // ID comes from the URL parameter
-    const loggedUserId = req.user.userId; // Assuming the logged user ID is available in req.user (this might come from authentication)
+    const { id } = req.params;
+    const loggedUserId = req.user.userId;
 
     const order = await MedicineOrderModel.findOne({
       $or: [
@@ -131,38 +131,51 @@ const getMedicineOrderById = async (req, res, next) => {
 
 const updateMedicineOrder = async (req, res, next) => {
   try {
-    const { id } = req.params; // ID from the URL parameter
-    const { status } = req.body; // New status coming from the request body
+    const { id } = req.params;
+    const { orderStatus } = req.body;
+
+    const { userRole, userId } = req.user;
 
     console.log(
       "check update medicine order api request with id and body ",
-      id,
+      orderStatus,
       req.body
     );
 
-    // Validate the status if necessary (e.g., only allow certain statuses)
-    const allowedStatuses = ["pending", "approved", "shipped", "delivered"];
-    if (!allowedStatuses.includes(status)) {
+    const allowedStatuses = [
+      "pending",
+      "dispatched",
+      "delivered",
+      "received",
+      "not-received",
+    ];
+    if (!allowedStatuses.includes(orderStatus)) {
       throw new Error("Invalid status");
     }
 
-    // Fetch the order by ID
-    const order = await MedicineOrderModel.findById(id).populate(
-      "prescription patient pharmacist"
-    );
+    const order = await MedicineOrderModel.findOne({
+      $or: [
+        { _id: id },
+        {
+          prescription: id,
+        },
+        {
+          patient: id,
+        },
+        {
+          pharmacist: id,
+        },
+      ],
+    }).populate("prescription patient pharmacist");
     if (!order) {
       throw new NotFoundError("Order not found");
     }
 
-    order.orderStatus = status;
+    order.orderStatus = orderStatus;
 
-    console.log(first);
-
-    // Save the updated order
     await order.save();
-    console.log("see new status ", order.status);
+    console.log("see new status ", order.orderStatus);
 
-    // Return the updated order data in the response
     res.status(200).json({
       message: "Order status updated successfully",
       order,

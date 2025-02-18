@@ -6,7 +6,7 @@ const registerValidationSchema = joi
   .object({
     userName: joi.string().min(3).max(50).trim().required(),
     email: joi.string().email().min(1).max(50).trim().required(),
-    password: joi.string().min(2).required(),
+    password: joi.string().min(6).required(),
     role: joi.string().required(),
   })
   .options({ abortEarly: true });
@@ -25,7 +25,7 @@ const updatePatientValidationSchema = joi
     contact: joi
       .string()
       .allow("")
-      .pattern(/^[0-9]+$/)
+      .pattern(/^[0-9\s\-\(\)]*$/)
       .min(10)
       .max(15)
       .messages({
@@ -40,7 +40,7 @@ const updatePatientValidationSchema = joi
 
 const updatePharmacistValidationSchema = joi
   .object({
-    userName: joi.string().min(3).max(30).optional(),
+    userName: joi.string().min(3).max(50).optional(),
     email: joi.string().email().optional(),
     fullName: joi.string().min(3).max(50).optional(),
     age: joi.number().integer().min(1).max(999).empty("").optional().messages({
@@ -50,7 +50,7 @@ const updatePharmacistValidationSchema = joi
     contact: joi
       .string()
       .allow("")
-      .pattern(/^[0-9]+$/)
+      .pattern(/^[0-9\s\-\(\)]*$/)
       .min(10)
       .max(15)
       .messages({
@@ -59,7 +59,7 @@ const updatePharmacistValidationSchema = joi
         "string.max": "Contact must not exceed 15 digits.",
       })
       .optional(),
-    pharmacyBranch: joi.string().min(3).max(15).optional(),
+    pharmacyBranch: joi.string().min(3).max(25).optional(),
   })
   .unknown(false)
   .options({ abortEarly: false });
@@ -107,7 +107,7 @@ const createPharmacyBranchValidationSchema = joi
   .object({
     name: joi.string().min(3).required(),
     address: joi.string().trim().min(3),
-    contact: joi.string().min(5),
+    contact: joi.string().min(9),
     pharmacists: joi
       .array()
       .items(joi.string().trim())
@@ -124,7 +124,7 @@ const updatePharmacyBranchValidationSchema = joi
   .object({
     name: joi.string().min(3).optional(),
     address: joi.string().trim().min(3).optional(),
-    contactInfo: joi.string().min(5).optional(),
+    contact: joi.string().min(9).optional(),
     pharmacists: joi.array().items(joi.string().optional()).optional(),
   })
   .strict()

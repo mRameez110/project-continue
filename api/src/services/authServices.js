@@ -4,7 +4,6 @@ const userModel = require("../models/userModel");
 
 const {
   UserAlreadyExistError,
-  InvalidCredentialError,
   BadRequestError,
 } = require("../utils/errorHandlerClass");
 const patientModel = require("../models/patientModel");
@@ -54,27 +53,6 @@ const registerService = async (req) => {
 
   return { newUser: userWithoutPassword };
 };
-
-// const loginService = async (dataObject) => {
-//   const { email, password } = dataObject;
-//   const user = await userModel.findOne({ email });
-//   if (!user) {
-//     throw new BadRequestError("Email not found", 400);
-//   }
-
-//   const isMatch = await bcrypt.compare(password, user.password);
-//   if (!isMatch) {
-//     throw new BadRequestError("Wrong Password", 400);
-//   }
-
-//   const token = jwt.sign(
-//     { userId: user._id, role: user.role },
-//     process.env.JWT_SECRET,
-//     { expiresIn: "8h" }
-//   );
-
-//   return { user, token };
-// };
 
 const loginService = async (dataObject) => {
   const { email, password } = dataObject;

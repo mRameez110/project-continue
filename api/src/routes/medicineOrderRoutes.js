@@ -23,7 +23,7 @@ router.get("/:id", authMiddleware, getMedicineOrderById);
 router.put(
   "/:id",
   authMiddleware,
-  checkPermissionMiddleware("admin", "pharmacist"),
+  checkPermissionMiddleware("admin", "pharmacist", "patient"),
   updateMedicineOrder
 );
 router.delete("/:id", authMiddleware, deleteMedicineOrder);

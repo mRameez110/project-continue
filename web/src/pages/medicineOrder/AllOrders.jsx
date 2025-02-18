@@ -9,6 +9,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const AllOrders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [statusChanged, setStatusChanged] = useState(false);
   const navigate = useNavigate();
   const token = getToken();
   const loggedUserRole = getUserRole();
@@ -26,8 +27,6 @@ const AllOrders = () => {
             },
           }
         );
-
-        console.log("see all order response in all order.jsx ", response);
 
         if (response.data && response.data.orders) {
           const updatedOrders = response.data.orders.map((order) => {
@@ -54,17 +53,22 @@ const AllOrders = () => {
     };
 
     fetchOrders();
-  }, [token]);
+  }, [token, statusChanged]);
 
   const handleViewOrder = (orderId) => {
     navigate(`/${loggedUserRole}/order-details/${orderId}`);
   };
 
   const handleStatusChange = async (orderId, newStatus) => {
+    if (newStatus === "received") {
+      alert("You cannot change the status once it is marked as received.");
+      return;
+    }
+
     try {
       const response = await axios.put(
         `${API_BASE_URL}/api/order-medicines/${orderId}`,
-        { status: newStatus },
+        { orderStatus: newStatus },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -72,16 +76,13 @@ const AllOrders = () => {
         }
       );
 
-      console.log(
-        "see status updated response in all orders.jsx ",
-        response.data
-      );
-
       setOrders((prevOrders) =>
         prevOrders.map((order) =>
-          order._id === orderId ? { ...order, status: newStatus } : order
+          order._id === orderId ? { ...order, orderStatus: newStatus } : order
         )
       );
+
+      setStatusChanged((prev) => !prev);
     } catch (error) {
       console.error("Error updating status", error);
     }
@@ -107,17 +108,10 @@ const AllOrders = () => {
         <td className="py-3 px-4">
           <StatusSlider
             orderId={order._id}
-            currentStatus={order.status}
+            currentStatus={order.orderStatus}
             onStatusChange={handleStatusChange}
+            isStatusEditable={order.orderStatus !== "received"}
           />
-        </td>
-        <td className="py-3 px-4 text-center">
-          <button
-            onClick={() => handleViewOrder(order._id)}
-            className="bg-blue-500 text-white py-1 px-4 rounded hover:bg-blue-600"
-          >
-            View
-          </button>
         </td>
       </tr>
     ));
@@ -142,7 +136,6 @@ const AllOrders = () => {
             <th className="py-3 px-4">Customer Name</th>
             <th className="py-3 px-4">Order Date</th>
             <th className="py-3 px-4">Status</th>
-            <th className="py-3 px-4">Action</th>
           </tr>
         </thead>
         <tbody>{renderOrders()}</tbody>

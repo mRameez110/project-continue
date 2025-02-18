@@ -5,14 +5,12 @@ import axios from "axios";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const OrderDetails = () => {
-  // Get the orderId from URL parameters
   const { orderId } = useParams();
   const navigate = useNavigate();
   const [orderDetails, setOrderDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch order details based on the orderId
   useEffect(() => {
     const fetchOrderDetails = async () => {
       try {
@@ -21,7 +19,7 @@ const OrderDetails = () => {
         );
 
         if (response.data) {
-          setOrderDetails(response.data.order); // Assuming the response contains an 'order' object
+          setOrderDetails(response.data.order);
         }
       } catch (error) {
         console.error("Error fetching order details:", error);
@@ -34,14 +32,12 @@ const OrderDetails = () => {
     fetchOrderDetails();
   }, [orderId]);
 
-  // Handle order status update (could be done here as per your use case)
   const handleStatusChange = (newStatus) => {
     setOrderDetails((prevOrderDetails) => ({
       ...prevOrderDetails,
       status: newStatus,
     }));
 
-    // You can send a request to update the order status on the server as well
     axios
       .put(`${API_BASE_URL}/api/orders/${orderId}`, {
         status: newStatus,
@@ -54,17 +50,14 @@ const OrderDetails = () => {
       });
   };
 
-  // Loading state
   if (loading) {
     return <div>Loading order details...</div>;
   }
 
-  // Error state
   if (error) {
     return <div>{error}</div>;
   }
 
-  // If order details are available, render them
   if (orderDetails) {
     return (
       <div className="container mx-auto p-6">
@@ -98,7 +91,6 @@ const OrderDetails = () => {
             {new Date(orderDetails.createdAt).toLocaleString()}
           </div>
 
-          {/* Order status update options */}
           <div className="mt-4">
             <strong>Update Order Status</strong>
             <div>
@@ -131,7 +123,7 @@ const OrderDetails = () => {
 
           <div className="mt-6">
             <button
-              onClick={() => navigate(-1)} // Go back to previous page
+              onClick={() => navigate(-1)}
               className="bg-gray-500 text-white py-1 px-4 rounded hover:bg-gray-600"
             >
               Back

@@ -26,15 +26,14 @@ const AboutPage = () => {
   };
 
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center bg-white py-10 px-0">
-      {/* Carousel */}
+    <section className="p-0 min-h-screen flex flex-col items-center justify-center bg-white py-10 px-0">
       <div className="relative w-full h-[400px] sm:h-[500px] md:h-[600px] lg:h-[700px] mb-12 overflow-hidden rounded-lg shadow-lg">
         <img
           src={images[currentIndex]}
           alt="Health Care"
           className="w-full h-full object-cover transition-all duration-1000 ease-in-out"
         />
-        {/* Navigation Arrows */}
+
         <div
           className="absolute top-1/2 left-4 transform -translate-y-1/2 text-white text-4xl cursor-pointer z-10"
           onClick={goToPrev}

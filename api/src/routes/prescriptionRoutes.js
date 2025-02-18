@@ -38,13 +38,13 @@ router.get(
 router.put(
   "/:id",
   authMiddleware,
-  checkPermissionMiddleware("admin", "pharmacist", "patient"),
+  checkPermissionMiddleware("admin", "pharmacist"),
   updatePrescription
 );
 router.delete(
   "/:id",
   authMiddleware,
-  checkPermissionMiddleware("admin", "pharmacist", "patient"),
+  checkPermissionMiddleware("admin", "pharmacist"),
   deletePrescription
 );
 module.exports = router;

@@ -35,6 +35,6 @@ router.delete(
   authMiddleware,
   checkPermissionMiddleware("admin", "pharmacist", "patient"),
   deletePatient
-); // by patient(own), pharmacist and Admin
+); 
 
 module.exports = router;

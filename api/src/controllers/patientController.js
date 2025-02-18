@@ -1,4 +1,3 @@
-const patientModel = require("../models/patientModel");
 const {
   getAllPatientsService,
   getPatientService,
@@ -13,7 +12,6 @@ const {
 // --> Get All Patient
 const getAllPatients = async (req, res, next) => {
   try {
-    // const patients = await patientModel.find({}).populate("user");
     console.log("see all patients ");
 
     const patients = await getAllPatientsService();

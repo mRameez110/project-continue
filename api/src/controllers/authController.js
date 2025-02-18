@@ -25,7 +25,7 @@ const registerUser = async (req, res, next) => {
 //  ---> Login User
 const loginUser = async (req, res, next) => {
   try {
-    // console.log("check login user controller ");
+    
 
     validation(req.body, loginValidationSchema);
     const { user, token } = await loginService(req.body);
