@@ -30,14 +30,14 @@ app.use("/api/pharmacy-branches", pharmacyBranchRoutes);
 app.use("/api/order-medicines", medicineOrderRoutes);
 
 app.use("*", (req, res) => {
-  res.status(404).json({
-    message: "Route not exist 2",
-  });
+	res.status(404).json({
+		message: "Route not exist 2",
+	});
 });
 
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+	console.log(`Server is running on port ${PORT}`);
 });
