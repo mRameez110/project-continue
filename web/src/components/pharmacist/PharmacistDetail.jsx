@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
-import { getUserRole } from "../../utils/auth";
+import { getToken, getUserRole } from "../../utils/auth";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -10,12 +10,13 @@ const PharmacitDetail = () => {
   const [pharmacist, setPharmacist] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const token = getToken();
   const userRole = getUserRole();
 
   useEffect(() => {
     const fetchPharmacist = async () => {
       try {
-        const token = localStorage.getItem("token");
         if (!token) {
           throw new Error("No authentication token found!");
         }
@@ -29,7 +30,7 @@ const PharmacitDetail = () => {
           }
         );
 
-        console.log("see response in patient detils .jsx ", response);
+        console.log("see response in pharmacist details .jsx ", response);
         setPharmacist(response.data.user);
       } catch (err) {
         console.error("Error fetching pharmacist:", err);
