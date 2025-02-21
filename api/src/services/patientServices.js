@@ -14,7 +14,6 @@ const getAllPatientsService = async () => {
 const getPatientService = async (req) => {
 	const userId = req.params.id;
 	const logedUserId = req.user.userId;
-	console.log("see id s", userId, logedUserId);
 
 	const findedPatient = await patientModel
 		.findOne({
@@ -24,14 +23,13 @@ const getPatientService = async (req) => {
 
 	if (!findedPatient) throw new NotFoundError("No patient found", 404);
 
-	console.log("see get patient by id ", findedPatient);
+	console.log("see geted patient by id ", findedPatient);
 
 	return findedPatient;
 };
 
 const updatePatientService = async (req) => {
 	const { loggedInUserId, loggedInUserRole, targetUserId } = req.accessControl;
-	const userIdToUpdate = targetUserId || loggedInUserId;
 	const patientId = req.params.id;
 
 	const updatedPatient = await patientModel
@@ -76,7 +74,6 @@ const deletePatientService = async (req) => {
 	if (!deletedPatient) throw new BadRequestError("Patient not found.");
 
 	console.log("see deleted patient ", deletedPatient);
-	console.log("see deleted patient Id", deletedPatient.user._id);
 
 	const userIdToDeleteUser = deletedPatient.user._id;
 

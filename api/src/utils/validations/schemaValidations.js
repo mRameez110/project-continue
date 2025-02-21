@@ -5,8 +5,8 @@ const { ValidationError } = require("../errorHandlerClass");
 const registerValidationSchema = joi
 	.object({
 		userName: joi.string().min(3).max(50).trim().required(),
-		email: joi.string().email().min(1).max(50).trim().required(),
-		password: joi.string().min(2).required(),
+		email: joi.string().email().min(5).max(50).trim().required(),
+		password: joi.string().min(6).required(),
 		role: joi.string().required(),
 	})
 	.options({ abortEarly: true });
@@ -65,7 +65,6 @@ const updatePharmacistValidationSchema = joi
 	.options({ abortEarly: false });
 
 // ----> Create Prescription Validationi Schema
-
 const createPrescriptionValidationSchema = joi
 	.object({
 		patientId: joi.optional() || null,
@@ -107,7 +106,6 @@ const createPrescriptionValidationSchema = joi
 	.options({ abortEarly: false });
 
 // ----> Edit Prescription Validationi Schema
-
 const updatePrescriptionValidationSchema = joi
 	.object({
 		patientId: joi.optional() || null,
@@ -152,7 +150,7 @@ const createPharmacyBranchValidationSchema = joi
 	.object({
 		name: joi.string().min(3).required(),
 		address: joi.string().trim().min(3),
-		contact: joi.string().min(9),
+		contact: joi.string().min(10),
 		pharmacists: joi
 			.array()
 			.items(joi.string().trim())

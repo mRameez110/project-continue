@@ -16,7 +16,6 @@ const createPharmacyBranch = async (req, res, next) => {
 	try {
 		console.log("check creat branch api request and body ", req.body);
 		validation(req.body, createPharmacyBranchValidationSchema);
-		console.log("see created request in create ");
 		const pharmacyBranch = await createPharmacyBranchService(req);
 
 		res.status(201).json({

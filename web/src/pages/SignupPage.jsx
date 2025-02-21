@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { data, Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { signup } from "../utils/auth";
 import { showErrorToast, showSuccessToast } from "../utils/errorHandling";
 
@@ -60,7 +60,6 @@ const Signup = () => {
 					required>
 					<option value="patient">Patient</option>
 					<option value="pharmacist">Pharmacist</option>
-					<option value="admin">Admin </option>
 				</select>
 				<button
 					type="submit"

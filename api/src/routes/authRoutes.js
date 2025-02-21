@@ -1,9 +1,9 @@
 const express = require("express");
 const {
-  registerUser,
-  loginUser,
-  getAllUsers,
-  getUserById,
+	registerUser,
+	loginUser,
+	getAllUsers,
+	getUserById,
 } = require("../controllers/authController");
 const authMiddleware = require("../middlewares/authMiddleware");
 const checkPermission = require("../middlewares/permissionsMiddleware");

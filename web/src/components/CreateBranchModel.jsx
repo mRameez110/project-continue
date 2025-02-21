@@ -66,7 +66,7 @@ const CreateBranchModal = ({ onClose, onCreate }) => {
 				}
 			);
 
-			onCreate();
+			if (onCreate) onCreate();
 			onClose();
 			showSuccessToast(response.data.message);
 			navigate(`/${userRole}/branches`);

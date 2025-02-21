@@ -44,7 +44,8 @@ const CreateUserModal = ({ onClose, onCreate, creatorRole }) => {
 			);
 
 			showSuccessToast(response.data.message || "Done successfully");
-			onCreate();
+
+			if (onCreate) onCreate();
 			onClose();
 			navigate(`/${logedUserRole}/${formData.role}s`);
 		} catch (error) {
@@ -118,7 +119,7 @@ const CreateUserModal = ({ onClose, onCreate, creatorRole }) => {
 						<button
 							type="submit"
 							className="bg-blue-500 text-white px-4 py-2 rounded">
-							Create User
+							Create
 						</button>
 					</div>
 				</form>

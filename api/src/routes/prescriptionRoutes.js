@@ -5,46 +5,46 @@ const authMiddleware = require("../middlewares/authMiddleware");
 const checkPermissionMiddleware = require("../middlewares/permissionsMiddleware");
 
 const {
-  createPrescription,
-  getAllPrescriptions,
-  getPrescriptionById,
-  updatePrescription,
-  deletePrescription,
+	createPrescription,
+	getAllPrescriptions,
+	getPrescriptionById,
+	updatePrescription,
+	deletePrescription,
 } = require("../controllers/prescriptionController");
 
 const router = express.Router();
 
 router.get(
-  "/",
-  authMiddleware,
-  checkPermissionMiddleware("admin", "pharmacist", "patient"),
-  getAllPrescriptions
+	"/",
+	authMiddleware,
+	checkPermissionMiddleware("admin", "pharmacist", "patient"),
+	getAllPrescriptions
 );
 
 router.post(
-  "/",
-  authMiddleware,
-  checkPermissionMiddleware("admin", "pharmacist"),
-  createPrescription
+	"/",
+	authMiddleware,
+	checkPermissionMiddleware("admin", "pharmacist"),
+	createPrescription
 );
 
 router.get(
-  "/:id",
-  authMiddleware,
-  checkPermissionMiddleware("admin", "pharmacist", "patient"),
-  getPrescriptionById
+	"/:id",
+	authMiddleware,
+	checkPermissionMiddleware("admin", "pharmacist", "patient"),
+	getPrescriptionById
 );
 
 router.put(
-  "/:id",
-  authMiddleware,
-  checkPermissionMiddleware("admin", "pharmacist"),
-  updatePrescription
+	"/:id",
+	authMiddleware,
+	checkPermissionMiddleware("admin", "pharmacist"),
+	updatePrescription
 );
 router.delete(
-  "/:id",
-  authMiddleware,
-  checkPermissionMiddleware("admin", "pharmacist"),
-  deletePrescription
+	"/:id",
+	authMiddleware,
+	checkPermissionMiddleware("admin", "pharmacist"),
+	deletePrescription
 );
 module.exports = router;

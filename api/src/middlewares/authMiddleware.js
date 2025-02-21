@@ -7,7 +7,7 @@ const authMiddleware = (req, res, next) => {
 	const token = req.header("Authorization")?.split(" ")[1];
 
 	if (!token) {
-		console.log("inspect token 3", token);
+		console.log("inspect if not token", token);
 		throw new BadRequestError("Access Denied, Token not found", 400);
 	}
 
@@ -18,7 +18,6 @@ const authMiddleware = (req, res, next) => {
 		console.log("inspect decoded token", decoded);
 
 		req.user = decoded;
-		console.log("inspect req user ", req.user);
 		next();
 	} catch (err) {
 		next(err);
