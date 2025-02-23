@@ -1,135 +1,142 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { getToken } from "../../utils/auth";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const OrderDetails = () => {
-	const { orderId } = useParams();
-	const navigate = useNavigate();
-	const [orderDetails, setOrderDetails] = useState(null);
-	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState(null);
+  const { id } = useParams();
+  const [orderDetails, setOrderDetails] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-	useEffect(() => {
-		const fetchOrderDetails = async () => {
-			try {
-				const response = await axios.get(
-					`${API_BASE_URL}/api/orders/${orderId}`
-				);
+  const token = getToken();
 
-				if (response.data) {
-					setOrderDetails(response.data.order);
-				}
-			} catch (error) {
-				console.error("Error fetching order details:", error);
-				setError("Failed to load order details.");
-			} finally {
-				setLoading(false);
-			}
-		};
+  useEffect(() => {
+    const fetchOrderDetails = async () => {
+      if (!token) throw new Error("Token not found");
 
-		fetchOrderDetails();
-	}, [orderId]);
+      try {
+        const response = await axios.get(
+          `${API_BASE_URL}/api/order-medicines/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-	const handleStatusChange = (newStatus) => {
-		setOrderDetails((prevOrderDetails) => ({
-			...prevOrderDetails,
-			status: newStatus,
-		}));
+        console.log("Fetched order details:", response.data);
 
-		axios
-			.put(`${API_BASE_URL}/api/orders/${orderId}`, {
-				status: newStatus,
-			})
-			.then((response) => {
-				console.log("Order status updated:", response.data);
-			})
-			.catch((error) => {
-				console.error("Error updating order status:", error);
-			});
-	};
+        if (response.data) {
+          setOrderDetails(response.data.order);
+        }
+      } catch (error) {
+        console.error("Error fetching order details:", error);
+        setError("Failed to load order details.");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-	if (loading) {
-		return <div>Loading order details...</div>;
-	}
+    fetchOrderDetails();
+  }, [id]);
 
-	if (error) {
-		return <div>{error}</div>;
-	}
+  if (loading) {
+    return <div>Loading order details...</div>;
+  }
 
-	if (orderDetails) {
-		return (
-			<div className="container mx-auto p-6">
-				<h2 className="text-2xl font-semibold">Order Details</h2>
+  if (error) {
+    return <div>{error}</div>;
+  }
 
-				<div className="mt-4">
-					<div>
-						<strong>Order ID:</strong> {orderDetails.orderId}
-					</div>
-					<div>
-						<strong>Customer Name:</strong> {orderDetails.customerName}
-					</div>
-					<div>
-						<strong>Status:</strong> {orderDetails.status}
-					</div>
-					<div>
-						<strong>Items:</strong>
-					</div>
-					<ul>
-						{orderDetails.items.map((item, index) => (
-							<li key={index}>
-								{item.name} - {item.quantity}
-							</li>
-						))}
-					</ul>
-					<div>
-						<strong>Shipping Address:</strong> {orderDetails.shippingAddress}
-					</div>
-					<div>
-						<strong>Order Date:</strong>{" "}
-						{new Date(orderDetails.createdAt).toLocaleString()}
-					</div>
+  if (orderDetails) {
+    return (
+      <div className="container mx-auto p-6">
+        <h2 className="text-3xl text-blue-700 font-semibold text-center mb-12">
+          Order Details
+        </h2>
 
-					<div className="mt-4">
-						<strong>Update Order Status</strong>
-						<div>
-							<button
-								onClick={() => handleStatusChange("pending")}
-								className="bg-blue-500 text-white py-1 px-4 rounded hover:bg-blue-600">
-								Pending
-							</button>
-							<button
-								onClick={() => handleStatusChange("dispatched")}
-								className="bg-yellow-500 text-white py-1 px-4 rounded hover:bg-yellow-600 ml-2">
-								Dispatched
-							</button>
-							<button
-								onClick={() => handleStatusChange("delivered")}
-								className="bg-green-500 text-white py-1 px-4 rounded hover:bg-green-600 ml-2">
-								Delivered
-							</button>
-							<button
-								onClick={() => handleStatusChange("received")}
-								className="bg-gray-500 text-white py-1 px-4 rounded hover:bg-gray-600 ml-2">
-								Received
-							</button>
-						</div>
-					</div>
+        <div className="mt-4">
+          {/* Order ID, Order Status, and Order Date in one row */}
+          <div className="flex justify-between">
+            <div>
+              <strong>Order ID:</strong> {orderDetails._id}
+            </div>
+            <div>
+              <strong>Order Status:</strong> {orderDetails.orderStatus}
+            </div>
+            <div>
+              <strong>Order Date:</strong>{" "}
+              {new Date(orderDetails.orderDate).toLocaleString()}
+            </div>
+          </div>
 
-					<div className="mt-6">
-						<button
-							onClick={() => navigate(-1)}
-							className="bg-gray-500 text-white py-1 px-4 rounded hover:bg-gray-600">
-							Back
-						</button>
-					</div>
-				</div>
-			</div>
-		);
-	}
+          {/* Patient Details */}
+          <div className="mt-12">
+            <strong>Patient Details:</strong>
+            <div>
+              <strong>Name:</strong> {orderDetails.patient.fullName}
+            </div>
+            <div>
+              <strong>Age:</strong> {orderDetails.patient.age}
+            </div>
+            <div>
+              <strong>Contact:</strong> {orderDetails.patient.contact}
+            </div>
+          </div>
 
-	return <div>No order details available</div>;
+          {/* Pharmacist Details (conditionally rendered if pharmacist exists) */}
+          {orderDetails.pharmacist && (
+            <div className="mt-4">
+              <strong>Pharmacist Details:</strong>
+              <div>
+                <strong>Name:</strong> {orderDetails.pharmacist.fullName}
+              </div>
+              <div>
+                <strong>Contact:</strong> {orderDetails.pharmacist.contact}
+              </div>
+              <div>
+                <strong>Age:</strong> {orderDetails.pharmacist.age}
+              </div>
+            </div>
+          )}
+
+          {/* Prescription Details (table format) */}
+          <div className="mt-4">
+            <div className="text-center">
+              <strong className="text-center text-green-800 text-xl">
+                Prescription Details
+              </strong>
+            </div>
+            <table className="min-w-full mt-2 border-collapse">
+              <thead>
+                <tr>
+                  <th className="border px-4 py-2 text-left">Medicine Name</th>
+                  <th className="border px-4 py-2 text-left">Dosage</th>
+                  <th className="border px-4 py-2 text-left">Frequency</th>
+                  <th className="border px-4 py-2 text-left">Duration</th>
+                </tr>
+              </thead>
+              <tbody>
+                {orderDetails.prescription.medicine.map((item, index) => (
+                  <tr key={index}>
+                    <td className="border px-4 py-2">{item.medicineName}</td>
+                    <td className="border px-4 py-2">{item.dosage}</td>
+                    <td className="border px-4 py-2">{item.frequency}</td>
+                    <td className="border px-4 py-2">{item.duration}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return <div>No order details available</div>;
 };
 
 export default OrderDetails;

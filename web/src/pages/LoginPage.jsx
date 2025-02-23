@@ -76,7 +76,18 @@ const Login = () => {
             href="#"
             className="font-semibold text-indigo-600 hover:text-indigo-950"
           >
-            create here
+            Create here
+          </Link>
+        </p>
+
+        <p className="mt-4 text-center text-sm/6 text-gray-500">
+          Forgot Password?{" "}
+          <Link
+            to="/forgot-password"
+            href="#"
+            className="font-semibold text-indigo-600 hover:text-indigo-950"
+          >
+            Click here
           </Link>
         </p>
       </form>

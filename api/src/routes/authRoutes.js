@@ -1,9 +1,11 @@
 const express = require("express");
 const {
-	registerUser,
-	loginUser,
-	getAllUsers,
-	getUserById,
+  registerUser,
+  loginUser,
+  getAllUsers,
+  getUserById,
+  forgotPassword,
+  resetPassword,
 } = require("../controllers/authController");
 const authMiddleware = require("../middlewares/authMiddleware");
 const checkPermission = require("../middlewares/permissionsMiddleware");
@@ -14,5 +16,8 @@ router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.get("/", authMiddleware, checkPermission("admin"), getAllUsers);
 router.get("/:id", authMiddleware, checkPermission("admin"), getUserById);
+
+router.post("/forgot-password", forgotPassword); // Forgot Password Route
+router.post("/reset-password", resetPassword); // Reset Password Route
 
 module.exports = router;

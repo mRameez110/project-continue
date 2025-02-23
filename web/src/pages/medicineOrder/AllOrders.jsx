@@ -44,7 +44,7 @@ const AllOrders = () => {
           });
 
           console.log(
-            "see get all orders response in allorders.jsx ",
+            "see get all orders response in all Orders.jsx ",
             response.data
           );
 
@@ -97,7 +97,9 @@ const AllOrders = () => {
     if (!orders || orders.length === 0) {
       return (
         <tr>
-          <td className="text-center p-4">No orders found.</td>
+          <td colSpan="6" className="text-center p-4 ">
+            No orders found
+          </td>
         </tr>
       );
     }
@@ -118,6 +120,14 @@ const AllOrders = () => {
               order.orderStatus !== "not-received"
             }
           />
+        </td>
+        <td className="py-3 px-4 text-center">
+          <button
+            onClick={() => handleViewOrder(order._id)}
+            className="bg-blue-500 text-white py-1 px-4 rounded hover:bg-blue-600"
+          >
+            View
+          </button>
         </td>
       </tr>
     ));
@@ -144,6 +154,7 @@ const AllOrders = () => {
             <th className="py-3 px-4">Patient Name</th>
             <th className="py-3 px-4">Order Date</th>
             <th className="py-3 px-4">Status</th>
+            <th className="py-3 px-4">Action</th>
           </tr>
         </thead>
         <tbody>{renderOrders()}</tbody>
