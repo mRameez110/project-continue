@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
-import { getToken, getUserRole, getUserId } from "../utils/auth";
+import { getToken, getUserRole } from "../utils/auth";
 import { useNavigate } from "react-router-dom";
 import { showErrorToast, showSuccessToast } from "../utils/errorHandling";
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+import Select from "react-select";
 
 const CreateBranchModal = ({ onClose, onCreate }) => {
 	const navigate = useNavigate();
@@ -15,6 +13,8 @@ const CreateBranchModal = ({ onClose, onCreate }) => {
 	const [contact, setContact] = useState("");
 	const [selectedPharmacists, setSelectedPharmacists] = useState([]);
 	const [loading, setLoading] = useState(false);
+
+	const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 	const token = getToken();
 	const userRole = getUserRole();
@@ -29,12 +29,19 @@ const CreateBranchModal = ({ onClose, onCreate }) => {
 				const response = await axios.get(`${API_BASE_URL}/api/pharmacists`, {
 					headers: { Authorization: `Bearer ${token}` },
 				});
-				console.log("Fetched pharmacists: ", response);
+				console.log(
+					"see Fetched pharmacists in create branchmodel.jsx ",
+					response.data
+				);
 
 				const pharmacistsWithoutBranch = response.data.pharmacists.filter(
 					(pharmacist) => !pharmacist.pharmacyBranch
 				);
 				setPharmacists(pharmacistsWithoutBranch.reverse());
+				console.log(
+					"see only without branch pharmacists in create branch model.jsx ",
+					pharmacistsWithoutBranch
+				);
 			} catch (error) {
 				console.error("Error fetching pharmacists", error);
 				showErrorToast(error);
@@ -78,6 +85,16 @@ const CreateBranchModal = ({ onClose, onCreate }) => {
 		}
 	};
 
+	// Format pharmacists for react-select
+	const pharmacistOptions = pharmacists.map((pharmacist) => ({
+		value: pharmacist._id,
+		label: pharmacist.user?.userName,
+	}));
+
+	const handleSelectChange = (selectedOptions) => {
+		setSelectedPharmacists(selectedOptions.map((option) => option.value));
+	};
+
 	return (
 		<div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 p-4">
 			<div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-2xl">
@@ -111,7 +128,7 @@ const CreateBranchModal = ({ onClose, onCreate }) => {
 					</label>
 					<input
 						type="text"
-						placeholder="0300 1234567"
+						placeholder="03xx xxxxxxx"
 						className="border p-2 w-full"
 						value={contact}
 						onChange={(e) => setContact(e.target.value)}
@@ -122,20 +139,15 @@ const CreateBranchModal = ({ onClose, onCreate }) => {
 					</label>
 
 					{pharmacists.length > 0 ? (
-						<select
-							className="w-full border p-2 rounded mb-4 text-black bg-white"
-							multiple
-							onChange={(e) =>
-								setSelectedPharmacists(
-									Array.from(e.target.selectedOptions, (option) => option.value)
-								)
-							}>
-							{pharmacists.map((pharmacist) => (
-								<option key={pharmacist._id} value={pharmacist._id}>
-									{pharmacist.user?.userName}
-								</option>
-							))}
-						</select>
+						<Select
+							isMulti
+							options={pharmacistOptions}
+							onChange={handleSelectChange}
+							value={pharmacistOptions.filter((option) =>
+								selectedPharmacists.includes(option.value)
+							)}
+							className="mb-4"
+						/>
 					) : (
 						<p>No Pharmacist available to select</p>
 					)}
