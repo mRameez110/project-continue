@@ -113,9 +113,8 @@ const forgotPasswordService = async (req) => {
     expiresIn: "1h",
   });
 
-  // Send Reset Email (Nodemailer)
   const transporter = nodemailer.createTransport({
-    service: "gmail", // Use any email service provider
+    service: "gmail",
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,

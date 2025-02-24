@@ -69,11 +69,11 @@ const getUserById = async (req, res, next) => {
   }
 };
 
-// Forgot Password
+// ---> Forgot Password
 const forgotPassword = async (req, res, next) => {
   try {
     const sentMail = await forgotPasswordService(req);
-    res.status(200).json({ message: "Password reset email sent.", sentMail });
+    res.status(200).json({ message: "Mail sent(Check inbox)", sentMail });
   } catch (err) {
     next(err);
   }

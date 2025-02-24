@@ -45,13 +45,14 @@ const Login = () => {
         <label className="block text-gray-700 font-medium my-2">Email</label>
         <input
           type="email"
+          id="email"
           placeholder="email@gmail.com"
           className="w-full p-2 border rounded mb-2"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          autoComplete="email"
         />
+
         <label className="block text-gray-700 font-medium my-2">Password</label>
         <input
           type="password"

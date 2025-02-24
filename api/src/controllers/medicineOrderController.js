@@ -86,7 +86,7 @@ const createMedicineOrder = async (req, res, next) => {
 
     console.log("Medicine order created", newOrder);
     res.status(200).json({
-      message: "order created successfully",
+      message: "order placed successfully",
       order: newOrder,
     });
   } catch (error) {

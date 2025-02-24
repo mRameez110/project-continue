@@ -88,6 +88,10 @@ function App() {
               element={<EditPatient />}
             />
             <Route path="/pharmacist/orders" element={<AllOrders />} />
+            <Route
+              path="/pharmacist/order-details/:id"
+              element={<OrderDetails />}
+            />
             <Route path="/pharmacist/inventory" element={<InvantoriesPage />} />
             <Route path="/pharmacist/branch" element={<PharmacistBranch />} />
             {/* Routes of Admin */}

@@ -17,7 +17,7 @@ router.post("/login", loginUser);
 router.get("/", authMiddleware, checkPermission("admin"), getAllUsers);
 router.get("/:id", authMiddleware, checkPermission("admin"), getUserById);
 
-router.post("/forgot-password", forgotPassword); // Forgot Password Route
-router.post("/reset-password", resetPassword); // Reset Password Route
+router.post("/forgot-password", forgotPassword);
+router.post("/reset-password", resetPassword);
 
 module.exports = router;
